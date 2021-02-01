@@ -57,14 +57,14 @@ const PostOptions: React.FC<IProps> = (props) => {
                     {props.isOwnPost ? (
                         <>
                             <h4
-                                className="p-4 flex items-center hover:bg-indigo-700 hover:text-white cursor-pointer"
+                                className="p-4 flex items-center hover:bg-gray-700 hover:text-white cursor-pointer"
                                 onClick={props.openUpdateModal}
                             >
                                 <EditOutlined className="mr-4" />
                         Edit Post
                         </h4>
                             <h4
-                                className="p-4 flex items-center hover:bg-indigo-700 hover:text-white cursor-pointer"
+                                className="p-4 flex items-center hover:bg-gray-700 hover:text-white cursor-pointer"
                                 onClick={props.openDeleteModal}
                             >
                                 <DeleteOutlined className="mr-4" />

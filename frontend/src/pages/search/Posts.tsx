@@ -25,7 +25,7 @@ const boldString = (str: string, substr: string) => {
 
 const Posts: React.FC<IProps> = ({ posts, searchQuery }) => {
     const history = useHistory();
-    useDocumentTitle(`Search Posts | Foodie`);
+    useDocumentTitle(`Search Posts | Codevcast`);
 
     const onClickPost = (id: string) => {
         history.push(`/post/${id}`);
@@ -40,7 +40,7 @@ const Posts: React.FC<IProps> = ({ posts, searchQuery }) => {
         <div className="space-y-4">
             {posts.map((post) => post.author && (
                 <div
-                    className="h-28 laptop:h-24 flex justify-start bg-white rounded-md shadow-lg overflow-hidden cursor-pointer border border-transparent hover:border-indigo-700"
+                    className="h-28 laptop:h-24 flex justify-start bg-white rounded-md shadow-lg overflow-hidden cursor-pointer border border-transparent hover:border-gray-700"
                     key={post.id}
                     onClick={(e) => onClickPost(post.id)}
                 >
@@ -62,7 +62,7 @@ const Posts: React.FC<IProps> = ({ posts, searchQuery }) => {
                                     Posted by
                                     &nbsp;
                                     <span
-                                        className="underline text-indigo-700 cursor-pointer hover:text-indigo-400"
+                                        className="underline text-gray-700 cursor-pointer hover:text-purple-400"
                                         onClick={(e) => onClickAuthor(e, post.author.username)}
                                     >
                                         {post.author.username}

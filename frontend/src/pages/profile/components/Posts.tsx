@@ -28,7 +28,7 @@ const Posts: React.FC<IProps> = (props) => {
 
     let isMountedRef = useRef<boolean | null>(null);
 
-    useDocumentTitle(`Posts - ${props.username} | Foodie`);
+    useDocumentTitle(`Posts - ${props.username} | Codevcast`);
     useEffect(() => {
         fetchPosts();
 
@@ -132,7 +132,7 @@ const Posts: React.FC<IProps> = (props) => {
                     <div className="flex-grow">
                         <input
                             type="text"
-                            placeholder="Create a post."
+                            placeholder="Hi, how is it going?"
                             onClick={() => !isCreatingPost && openModal()}
                             readOnly={isCreatingPost}
                         />

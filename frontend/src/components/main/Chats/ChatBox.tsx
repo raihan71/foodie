@@ -161,10 +161,10 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                     <>
                         {!isLoading ? (
                             <div
-                                className={`flex justify-center items-center py-2 mb-4 bg-indigo-100 cursor-pointer`}
+                                className={`flex justify-center items-center py-2 mb-4 bg-purple-100 cursor-pointer`}
                                 onClick={fetchMessages}
                             >
-                                <span className="text-indigo-700 text-xs">Older messages</span>
+                                <span className="text-gray-700 text-xs">Older messages</span>
                             </div>
                         ) : (
                                 <div className="flex justify-center py-2 mb-4">
@@ -195,7 +195,7 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                                             />
                                             {/*  -- MESSAGE-- */}
                                             <span
-                                                className={`py-2 px-3  text-sm rounded-xl ${msg.isOwnMessage ? 'bg-indigo-700 text-white order-1' : 'bg-gray-300 order-2'}`}>
+                                                className={`py-2 px-3  text-sm rounded-xl ${msg.isOwnMessage ? 'bg-purple-700 text-white order-1' : 'bg-gray-300 order-2'}`}>
                                                 {msg.text}
                                             </span>
                                             <span ref={dummyEl}></span>

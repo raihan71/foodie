@@ -3,11 +3,11 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import SocialLogin from '~/components/shared/SocialLogin';
+import Footer from '~/components/shared/Footer';
 import { REGISTER } from '~/constants/routes';
 import useDocumentTitle from '~/hooks/useDocumentTitle';
-import bg from '~/images/friends_meal.jpg';
-import logo from '~/images/logo-white.svg';
-import logo_dark from '~/images/logo.svg';
+import bg from '~/images/cover/bg-login.jpg';
+import image from '~/images/logo-codevcast.png';
 import { loginStart } from '~/redux/action/authActions';
 import { setAuthErrorMessage } from '~/redux/action/errorActions';
 import { IRootReducer } from '~/types/types';
@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
-    useDocumentTitle('Login to Foodie');
+    useDocumentTitle('Login to Codevcast');
     useEffect(() => {
         return () => {
             dispatch(setAuthErrorMessage(null));
@@ -59,25 +59,25 @@ const Login: React.FC = () => {
                 }}
             >
                 {/* --- LOGO --- */}
-                <img src={logo} alt="Foodie Logo" className="w-24 absolute left-8 top-8" />
+                <img src={image} alt="Codevcast Logo" className="w-24 absolute left-8 top-8" />
                 {/* -- INFO --- */}
-                <h3 className="animate-fade text-white w-9/12 mb-14">
-                    Looking for a new idea for your next menu? You're in the right place.
+                <h3 className="animate-fade text-white w-10/12 mb-14">
+                    You get stuck coding, need some help? You're in the right place.
                 </h3>
                 {/* --- CREDITS LINK --- */}
                 <a
                     className="animate-fade absolute bottom-8 left-8 text-1xs text-white underline"
                     target="_blank"
                     rel="noreferrer"
-                    href="https://infinityrimapts.com/5-reasons-host-dinner-party/friends-enjoying-a-meal/"
+                    href="https://unsplash.com/photos/6jSBqYqLxNg"
                 >
                     Photo: Credits to the photo owner
                 </a>
             </div>
             <div className="animate-fade laptop:w-5/12 w-full flex items-center justify-start relative">
                 <img
-                    src={logo_dark}
-                    alt="Foodie Logo"
+                    src={image}
+                    alt="Codevcast Logo"
                     className="w-24 absolute left-0 right-0 mx-auto top-8 laptop:hidden"
                 />
                 {error && (
@@ -88,7 +88,7 @@ const Login: React.FC = () => {
                 <div className="w-full laptop:px-14 px-8 text-center laptop:text-left">
                     <div>
                         <h2 className="mt-6 text-xl laptop:text-2xl font-extrabold text-gray-900">
-                            Login to Foodie
+                            Hello there, welcome back
                     </h2>
                     </div>
                     <form className="mt-8 space-y-6" onSubmit={onSubmit}>
@@ -127,7 +127,7 @@ const Login: React.FC = () => {
                                 />
                             </div>
                         </div>
-                        <Link className="font-medium text-sm text-gray-400 inline-block laptop:block my-4  laptop:mb-0 hover:text-indigo-500 underline laptop:w-2/4 laptop:pl-4" to="/forgot-password">
+                        <Link className="font-medium text-sm text-gray-400 inline-block laptop:block my-4  laptop:mb-0 hover:text-gray-500 hover:underline laptop:w-2/4 laptop:pl-4" to="/">
                             Forgot your password?
                             </Link>
                         <button type="submit" className="button--stretch" disabled={isLoading}>
@@ -141,12 +141,10 @@ const Login: React.FC = () => {
                         </div>
                     </form>
                     <div className="text-center mt-8">
-                        <Link to={REGISTER} className="underline font-medium">I dont have an account</Link>
+                        <Link to={REGISTER} className="font-medium hover:underline">I dont have an account</Link>
                     </div>
                     {/* --- COPYRIGHT -- */}
-                    <span className="text-gray-400 text-xs absolute bottom-8 left-0 right-0 mx-auto text-center">
-                        &copy;Copyright {new Date().getFullYear()} Foodie
-                    </span>
+                    <Footer />
                 </div>
             </div>
         </div>

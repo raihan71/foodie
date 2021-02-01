@@ -24,11 +24,11 @@
   }
 
   a {
-    @apply text-indigo-600;
+    @apply text-gray-600;
   }
 
   button {
-    @apply 
+    @apply
       group
       relative
       disabled:opacity-50
@@ -44,14 +44,14 @@
       font-medium
       rounded-full
       text-white
-      bg-indigo-600;
-    
+      bg-purple-500;
+
       &:hover {
-      @apply bg-indigo-700;
+      @apply bg-purple-600;
     }
 
     &:focus {
-      @apply bg-indigo-900;
+      @apply bg-purple-700;
       @apply outline-none;
     }
   }
@@ -74,10 +74,10 @@
       text-gray-900
       rounded-full
       readonly:opacity-50
-      focus:border-indigo-100
       hover:cursor-not-allowed;
 
     &:focus {
+      @apply border-gray-700;
       @apply outline-none;
       @apply z-10;
     }
@@ -91,8 +91,8 @@
     @apply
       h-4
       w-4
-      text-indigo-600
-      border-indigo-500
+      text-purple-600
+      border-purple-500
       rounded
       hover:cursor-not-allowed
       focus:ring-0
@@ -131,7 +131,7 @@
             border: 1px solid #e1e1e1; 
         }
         &::-webkit-scrollbar-thumb {
-            @apply bg-indigo-700;
+            @apply bg-purple-700;
             border-radius: 10px;
         }
     }
@@ -139,20 +139,23 @@
 
 body {
     margin: 0;
-    font-family: 'SF Pro Display', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
     line-height: 1.6;
     @apply bg-gray-100;
-    
   }
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Montserrat',
       monospace;
   }
 
   .App {
     min-height: 100vh;
+  }
+
+  .focus-gray:focus {
+    border-color: #000!important;
   }

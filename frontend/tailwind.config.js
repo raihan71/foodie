@@ -11,7 +11,7 @@ module.exports = {
       'desktop': '1280px',
     },
     fontFamily: {
-      sans: ['SF Pro Display', 'sans-serif'],
+      sans: ['SF Pro Display', 'sans-serif', 'Montserrat'],
     },
     extend: {
       fontSize: {
@@ -67,49 +67,50 @@ module.exports = {
     backgroundRepeat: ['important', 'responsive'],
     backgroundPosition: ['important', 'responsive'],
     margin: ['first', 'responsive'],
+    maxHeight: ['focus'],
     display: ['responsive'],
     padding: ['important', 'responsive'],
     borderRadius: ['important', 'responsive'],
     textColor: ['important', 'hover'],
     borderColor: ['important', 'focus', 'hover'],
+    boxShadow: ['responsive', 'hover', 'focus'],
+    outline: ['focus'],
     outlineOffset: ['hover'],
-    boxShadow: ['responsive'],
-    border: ['hover', 'responsive'],
+    border: ['hover', 'responsive', 'focus'],
     extend: {
       cursor: ['disabled'],
       opacity: ['disabled', 'readonly'],
     }
   },
   plugins: [
-    require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
     plugin(function ({ addVariant, e }) {
       addVariant('readonly', ({ modifySelectors, separator }) => {
         modifySelectors(({ className }) => {
           return `.${e(`readonly${separator}${className}`)}:read-only`
-        })
-      })
+        });
+      });
 
       addVariant('focus', ({ modifySelectors, separator }) => {
         modifySelectors(({ className }) => {
           return `.${e(`focus${separator}${className}`)}:read-only:focus`
-        })
-      })
+        });
+      });
 
       addVariant('hover', ({ modifySelectors, separator }) => {
         modifySelectors(({ className }) => {
           return `.${e(`hover${separator}${className}`)}:read-only:hover`
-        })
-      })
+        });
+      });
 
       addVariant('important', ({ container }) => {
         container.walkRules(rule => {
           rule.selector = `.\\!${rule.selector.slice(1)}`
           rule.walkDecls(decl => {
             decl.important = true
-          })
-        })
+          });
+        });
       });
 
       addVariant('before', ({ modifySelectors, separator }) => {
@@ -133,10 +134,10 @@ module.exports = {
         },
         '.content-after': {
           content: 'attr(data-after)',
-        },
+        }
       };
 
       addUtilities(contentUtilities, ['before', 'after']);
     }),
   ]
-}
+};

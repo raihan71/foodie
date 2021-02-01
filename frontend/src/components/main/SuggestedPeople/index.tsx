@@ -29,8 +29,8 @@ const SuggestedPeople: React.FC = () => {
     return (
         <div className="w-full py-4 bg-white rounded-md shadow-lg overflow-hidden">
             <div className="px-4 flex justify-between mb-4">
-                <h4>Suggested People</h4>
-                <Link to={`/people/suggested`} className="text-xs underline">See all</Link>
+                <h4>Suggested Developer</h4>
+                <Link to={`/search?q=.`} className="text-xs underline">See all</Link>
             </div>
             {isLoading && (
                 <div className="min-h-10rem px-4">

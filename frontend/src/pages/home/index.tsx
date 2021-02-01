@@ -33,7 +33,7 @@ const Home: React.FC<RouteComponentProps<any, any, ILocation>> = (props) => {
     const { isOpen, openModal, closeModal } = useModal();
     const from = props.location.state?.from || null;
 
-    useDocumentTitle('Foodie | Social Network');
+    useDocumentTitle('Codevcast Network | Social network platform for devs');
     useEffect(() => {
         if (state.newsFeed.items.length === 0 || from === '/') {
             dispatch(clearNewsFeed());
@@ -93,7 +93,7 @@ const Home: React.FC<RouteComponentProps<any, any, ILocation>> = (props) => {
                     <div className="flex-grow">
                         <input
                             type="text"
-                            placeholder="Create a post."
+                            placeholder="Hi, how is it going?"
                             onClick={() => !state.isLoadingCreatePost && openModal()}
                             readOnly={state.isLoadingFeed || state.isLoadingCreatePost}
                         />

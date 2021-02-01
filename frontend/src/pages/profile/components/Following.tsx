@@ -24,7 +24,7 @@ const Following: React.FC<IProps> = ({ username }) => {
     const [error, setError] = useState<IError | null>(null);
     let isMountedRef = useRef<boolean | null>(null);
 
-    useDocumentTitle(`Following - ${username} | Foodie`);
+    useDocumentTitle(`Following - ${username} | Codevcast`);
     useEffect(() => {
         fetchFollowing();
 
@@ -48,7 +48,6 @@ const Following: React.FC<IProps> = ({ username }) => {
                 setError(null);
             }
         } catch (e) {
-            console.log(e);
             if (isMountedRef.current) {
                 setIsLoading(false);
                 setError(e);

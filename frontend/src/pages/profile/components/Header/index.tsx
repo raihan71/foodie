@@ -9,6 +9,7 @@ import Loader from '~/components/shared/Loader';
 import useFileHandler from '~/hooks/useFileHandler';
 import useModal from '~/hooks/useModal';
 import avatar_placeholder from '~/images/avatar_placeholder.png';
+import image from '~/images/cover/bg-profil.jpg';
 import { updateAuthPicture } from '~/redux/action/authActions';
 import { initiateChat } from '~/redux/action/chatActions';
 import { updateCoverPhoto, updateProfilePicture } from '~/redux/action/profileActions';
@@ -151,7 +152,7 @@ const Header: React.FC<IProps> = ({ profile, auth }) => {
                 <img
                     alt=""
                     className="w-full h-full object-cover"
-                    src={coverPhoto.imageFile.url || profile.coverPhoto || `https://source.unsplash.com/oDhGIbegZNI/1400x900`}
+                    src={coverPhoto.imageFile.url || profile.coverPhoto || image}
                 />
             </div>
             <div className="laptop:px-6% w-full relative flex mt-2 laptop:transform laptop:-translate-y-2/4">
@@ -186,7 +187,7 @@ const Header: React.FC<IProps> = ({ profile, auth }) => {
                                     <label
                                         htmlFor="picture"
                                     >
-                                        <div className="flex items-center w-10 h-10 justify-center cursor-pointer p-4 bg-indigo-700 rounded-full absolute -bottom-2 laptop:bottom-0 left-14 hover:bg-indigo-800">
+                                        <div className="flex items-center w-10 h-10 justify-center cursor-pointer p-4 bg-gray-700 rounded-full absolute -bottom-2 laptop:bottom-0 left-14 hover:bg-gray-800">
                                             <CameraOutlined className="text-xl flex items-center justify-center text-white" />
                                         </div>
                                     </label>
@@ -200,7 +201,7 @@ const Header: React.FC<IProps> = ({ profile, auth }) => {
                         {/* ---- NAME AND USERNAME */}
                         <div className="text-center laptop:text-left mb-4 laptop:mb-0">
                             <h2 className="text-3xl">{profile.fullname || `@${profile.username}`}</h2>
-                            <span className="text-indigo-700">{profile.fullname && `@${profile.username}`}</span>
+                            <span className="text-gray-700">{profile.fullname && `@${profile.username}`}</span>
                         </div>
                         {/* ---- FOLLOW/UNFOLLOW/MESSAGE BUTTON */}
                         {!profile.isOwnProfile ? (

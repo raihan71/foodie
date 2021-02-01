@@ -29,13 +29,12 @@ const LikeButton: React.FC<IProps> = (props) => {
             props.likeCallback(post);
         } catch (e) {
             setLoading(false);
-            console.log(e);
         }
     }
 
     return (
         <span
-            className={` px-1 py-2 rounded-md flex items-center justify-center ${isLiked ? 'text-indigo-700 font-bold' : 'text-gray-700 hover:text-gray-800'} cursor-pointer hover:bg-gray-100 text-l w-2/4 ${isLoading && 'opacity-50'}`}
+            className={` px-1 py-2 rounded-md flex items-center justify-center ${isLiked ? 'text-gray-700 font-bold' : 'text-gray-700 hover:text-gray-800'} cursor-pointer hover:bg-gray-100 text-l w-2/4 ${isLoading && 'opacity-50'}`}
             onClick={dispatchLike}
         >
 

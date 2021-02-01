@@ -84,7 +84,7 @@ const PostLikesModal: React.FC<IProps> = (props) => {
                         </div>
                         {(!isLoading && likes.length >= 10) && (
                             <div className="flex items-center justify-center pt-2 border-t border-gray-100">
-                                <span className="text-indigo-700 text-sm font-medium cursor-pointer">
+                                <span className="text-gray-700 text-sm font-medium cursor-pointer">
                                     Load more
                                 </span>
                             </div>

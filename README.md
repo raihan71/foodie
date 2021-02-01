@@ -1,7 +1,7 @@
-# Foodie
+# Codevcast
 A social media for food lovers and for people looking for new ideas for their next menu. A facebook/instagram-like inspired social media.
 
-![Heroku](https://heroku-badge.herokuapp.com/?app=foodie-social) ![Vercel](https://vercelbadge.vercel.app/api/jgudo/foodie)
+![Heroku](https://heroku-badge.herokuapp.com/?app=codevcast-social) ![Vercel](https://vercelbadge.vercel.app/api/jgudo/codevcast)
 
 
 
@@ -94,7 +94,7 @@ And for the backend, you can deploy your server in [Heroku](https://heroku.com)
 
 ## Screenshots
 
-![Foodie screenshot](https://raw.githubusercontent.com/jgudo/foodie/master/frontend/src/images/screen1.png)
-![Foodie screenshot](https://raw.githubusercontent.com/jgudo/foodie/master/frontend/src/images/screen2.png)
-![Foodie screenshot](https://raw.githubusercontent.com/jgudo/foodie/master/frontend/src/images/screen3.png)
-![Foodie screenshot](https://raw.githubusercontent.com/jgudo/foodie/master/frontend/src/images/screen4.png)
+![Codevcast screenshot](https://raw.githubusercontent.com/jgudo/codevcast/master/frontend/src/images/screen1.png)
+![Codevcast screenshot](https://raw.githubusercontent.com/jgudo/codevcast/master/frontend/src/images/screen2.png)
+![Codevcast screenshot](https://raw.githubusercontent.com/jgudo/codevcast/master/frontend/src/images/screen3.png)
+![Codevcast screenshot](https://raw.githubusercontent.com/jgudo/codevcast/master/frontend/src/images/screen4.png)

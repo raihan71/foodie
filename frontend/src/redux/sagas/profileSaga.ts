@@ -23,7 +23,6 @@ function* profileSaga({ type, payload }: IProfileSaga) {
             } catch (e) {
                 yield put(setProfileErrorMessage(e));
                 yield put(isGettingUser(false));
-                console.log(e);
             }
             break;
         default:

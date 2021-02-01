@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 import { LOGIN, REGISTER } from '~/constants/routes';
 import useModal from "~/hooks/useModal";
-import logo from '~/images/logo.svg';
+import image from '~/images/logo-codevcast.png';
 import { logoutStart } from "~/redux/action/authActions";
 import { IRootReducer, IUser } from "~/types/types";
 import withAuth from "../hoc/withAuth";
@@ -45,9 +45,9 @@ const NavBar: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
     return hideNavToPaths.includes(pathname)
         ? null
         : isOpenSearch ? (
-            <div className="fixed top-0 left-0 flex w-full items-center bg-indigo-700 z-9999 py-2 pr-2 shadow-xl">
+            <div className="fixed top-0 left-0 flex w-full items-center bg-gray-700 z-9999 py-2 pr-2 shadow-xl">
                 <div
-                    className="p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-indigo-500"
+                    className="p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-500"
                     onClick={() => setOpenSearch(false)}
                 >
                     <ArrowLeftOutlined className="text-white" style={{ fontSize: '18px' }} />
@@ -67,7 +67,7 @@ const NavBar: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
                                 state: { from: pathname }
                             }}
                         >
-                            <img src={logo} alt="" className="w-24" />
+                            <img src={image} alt="" className="w-24" />
                         </NavLink>
                         {/* -------- SEARCH BAR ------- */}
                         <div className="hidden laptop:block">
@@ -109,10 +109,10 @@ const NavBar: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
                         ) : (
                                 <ul className="flex items-center">
                                     <li className="group inline-block mx-3">
-                                        <NavLink to="/login" className="group-hover:text-indigo-600 text-gray-500" activeClassName="nav-active">Login</NavLink>
+                                        <NavLink to="/login" className="group-hover:text-purple-600 text-gray-500" activeClassName="nav-active">Login</NavLink>
                                     </li>
                                     <li className="group inline-block mx-3">
-                                        <NavLink to="/register" className="button group-hover:text-indigo-600" activeClassName="nav-active">
+                                        <NavLink to="/register" className="button group-hover:text-purple-600" activeClassName="nav-active">
                                             Create Account
                                     </NavLink>
                                     </li>
@@ -157,7 +157,7 @@ const NavBar: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
                             </div>
                         </div>
                         <ul className="divide-y divide-gray-100">
-                            <li className="px-4 py-3 pb-4 cursor-pointer hover:bg-indigo-100">
+                            <li className="px-4 py-3 pb-4 cursor-pointer hover:bg-gray-100">
                                 <Link
                                     className="flex font-medium"
                                     onClick={onClickMenuItem}
@@ -170,37 +170,37 @@ const NavBar: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
                                     </div>
                                 </Link>
                             </li>
-                            <li className="p-4 cursor-pointer hover:bg-indigo-100">
+                            <li className="p-4 cursor-pointer hover:bg-gray-100">
                                 <Link
                                     className="flex items-center text-black"
                                     onClick={onClickMenuItem}
                                     to={`/user/${auth.username}/following`}
                                 >
-                                    <TeamOutlined className="text-indigo-700" style={{ fontSize: '30px', marginRight: '25px' }} />
+                                    <TeamOutlined className="text-gray-700" style={{ fontSize: '30px', marginRight: '25px' }} />
                                     <h6 className="text-sm">Following</h6>
                                 </Link>
                             </li>
-                            <li className="p-4 cursor-pointer hover:bg-indigo-100">
+                            <li className="p-4 cursor-pointer hover:bg-gray-100">
                                 <Link
                                     className="flex items-center text-black"
                                     onClick={onClickMenuItem}
                                     to={`/user/${auth.username}/followers`}
                                 >
-                                    <TeamOutlined className="text-indigo-700" style={{ fontSize: '30px', marginRight: '25px' }} />
+                                    <TeamOutlined className="text-gray-700" style={{ fontSize: '30px', marginRight: '25px' }} />
                                     <h6 className="text-sm">Followers</h6>
                                 </Link>
                             </li>
-                            <li className="p-4 cursor-pointer hover:bg-indigo-100">
+                            <li className="p-4 cursor-pointer hover:bg-gray-100">
                                 <Link
                                     className="flex items-center text-black"
                                     onClick={onClickMenuItem}
                                     to={`/user/${auth.username}/bookmarks`}
                                 >
-                                    <StarOutlined className="text-indigo-700" style={{ fontSize: '30px', marginRight: '25px' }} />
+                                    <StarOutlined className="text-gray-700" style={{ fontSize: '30px', marginRight: '25px' }} />
                                     <h6 className="text-sm">Bookmarks</h6>
                                 </Link>
                             </li>
-                            <li className="p-4 cursor-pointer hover:bg-indigo-100">
+                            <li className="p-4 cursor-pointer hover:bg-gray-100">
                                 <div
                                     className="flex items-center text-black"
                                     onClick={() => {
@@ -215,7 +215,7 @@ const NavBar: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
                         </ul>
                         {/* --- COPYRIGHT -- */}
                         <span className="text-gray-400 text-xs absolute bottom-8 left-0 right-0 mx-auto text-center">
-                            &copy;Copyright {new Date().getFullYear()} Foodie
+                            &copy;Copyright {new Date().getFullYear()} Codevcast
                     </span>
                     </div>
                     <LogoutModal

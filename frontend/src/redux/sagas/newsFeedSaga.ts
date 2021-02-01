@@ -23,7 +23,6 @@ function* newsFeedSaga({ type, payload }: INewsFeedSaga) {
                 yield put(isGettingFeed(false));
                 yield put(getNewsFeedSuccess(posts));
             } catch (e) {
-                console.log(e);
                 yield put(isGettingFeed(false));
                 yield put(setNewsFeedErrorMessage(e))
             }
@@ -41,7 +40,6 @@ function* newsFeedSaga({ type, payload }: INewsFeedSaga) {
                 toast.dark('Post succesfully created.');
             } catch (e) {
                 yield put(isCreatingPost(false));
-                console.log(e);
             }
             break;
         default:

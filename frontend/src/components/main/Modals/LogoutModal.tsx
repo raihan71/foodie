@@ -48,14 +48,14 @@ const LogoutModal: React.FC<IProps> = (props) => {
                     <p className="text-gray-600 my-4">Are you sure you want to logout?</p>
                     <div className="flex justify-between">
                         <button
-                            className="button--muted !rounded-full"
+                            className="button--danger"
                             onClick={props.closeModal}
                             disabled={props.isLoggingOut}
                         >
                             Cancel
                         </button>
                         <button
-                            className="button--danger"
+                            className="button--muted !rounded-full"
                             disabled={props.isLoggingOut}
                             onClick={props.dispatchLogout}
                         >

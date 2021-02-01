@@ -40,7 +40,7 @@ const NotificationList: React.FC<IProps> = (props) => {
                                         key={notif.id}
                                     >
                                         <div
-                                            className={`${notif.unread ? 'bg-indigo-100 hover:bg-indigo-200' : 'bg-white'} p-4 hover:bg-gray-100 hover:opacity-95 divide-y divide-y-2 divide-gray-100`}
+                                            className={`${notif.unread ? 'bg-purple-100 hover:bg-gray-200' : 'bg-white'} p-4 hover:bg-gray-100 hover:opacity-95 divide-y divide-y-2 divide-gray-100`}
                                             key={notif.id}
                                             onClick={() => handleNotificationClick(notif.link, notif.id)}
                                         >
@@ -52,7 +52,7 @@ const NotificationList: React.FC<IProps> = (props) => {
                                                         className="mr-2"
                                                     />
                                                     <div>
-                                                        <span className="text-indigo-700">{notif.initiator.username}</span>
+                                                        <span className="text-gray-700">{notif.initiator.username}</span>
                                                     &nbsp;
                                                 <span className="text-gray-700">
                                                             {
@@ -67,11 +67,11 @@ const NotificationList: React.FC<IProps> = (props) => {
                                                     </div>
                                                 </div>
                                                 {notif.type === 'like' ? (
-                                                    <LikeOutlined className="text-2xl text-indigo-700 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
+                                                    <LikeOutlined className="text-2xl text-gray-700 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
                                                 ) : notif.type === 'comment' ? (
-                                                    <CommentOutlined className="text-2xl text-indigo-700 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
+                                                    <CommentOutlined className="text-2xl text-gray-700 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
                                                 ) : (
-                                                            <UserAddOutlined className="text-2xl text-indigo-700 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
+                                                            <UserAddOutlined className="text-2xl text-gray-700 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
                                                         )}
                                             </div>
                                         </div>

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import SocialLogin from '~/components/shared/SocialLogin';
+import Footer from '~/components/shared/Footer';
 import { LOGIN } from '~/constants/routes';
 import useDocumentTitle from '~/hooks/useDocumentTitle';
-import bg from '~/images/friends_meal_2.webp';
-import logo from '~/images/logo-white.svg';
-import logo_dark from '~/images/logo.svg';
+import bg from '~/images/cover/bg-register.jpg';
+import logo from '~/images/logo-codevcast.png';
 import { registerStart } from '~/redux/action/authActions';
 import { setAuthErrorMessage } from '~/redux/action/errorActions';
 import { IRootReducer } from '~/types/types';
@@ -17,7 +17,7 @@ const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const dispatch = useDispatch();
 
-    useDocumentTitle('Register to Foodie');
+    useDocumentTitle('Register to Codevcast');
     useEffect(() => {
         return () => {
             dispatch(setAuthErrorMessage(null));
@@ -64,25 +64,25 @@ const Register: React.FC = () => {
                 }}
             >
                 {/* --- LOGO --- */}
-                <img src={logo} alt="Foodie Logo" className="w-24 absolute left-8 top-8" />
+                <img src={logo} alt="Codevcast Logo" className="w-24 absolute left-8 top-8" />
                 {/* -- INFO --- */}
-                <h3 className="animate-fade text-white w-9/12 mb-14">
-                    Create your account now and discover new ideas and connect with people.
+                <h3 className="animate-fade text-white w-11/12 mb-14">
+                    Join now, discover new challenges and connect with other developers.
                 </h3>
                 {/* --- CREDITS LINK --- */}
                 <a
                     className="animate-fade absolute bottom-8 left-8 text-1xs text-white underline"
                     target="_blank"
                     rel="noreferrer"
-                    href="https://infinityrimapts.com/5-reasons-host-dinner-party/friends-enjoying-a-meal/"
+                    href="https://unsplash.com/photos/P1qyEf1g0HU"
                 >
                     Photo: Credits to the photo owner
                 </a>
             </div>
             <div className="relative animate-fade w-full text-center laptop:w-5/12 laptop:text-left flex items-center justify-start">
                 <img
-                    src={logo_dark}
-                    alt="Foodie Logo"
+                    src={logo}
+                    alt="Codevcast Logo"
                     className="w-24 absolute left-0 right-0 mx-auto top-8 laptop:hidden"
                 />
                 {error && (
@@ -159,12 +159,10 @@ const Register: React.FC = () => {
                         </div>
                     </form>
                     <div className="text-center mt-8">
-                        <Link to={LOGIN} className="underline font-medium">Login instead</Link>
+                        <Link to={LOGIN} className="font-medium hover:underline">Login instead</Link>
                     </div>
                     {/* --- COPYRIGHT -- */}
-                    <span className="text-gray-400 text-xs absolute bottom-8 left-0 right-0 mx-auto text-center">
-                        &copy;Copyright {new Date().getFullYear()} Foodie
-                    </span>
+                   <Footer />
                 </div>
             </div>
         </div>

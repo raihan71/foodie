@@ -27,7 +27,7 @@ const EditInfo: React.FC<IProps> = ({ isOwnProfile, profile }) => {
     const dispatch = useDispatch();
     let isMountedRef = useRef<boolean | null>(null);
 
-    useDocumentTitle(`Edit Info - ${profile.username} | Foodie`);
+    useDocumentTitle(`Edit Info - ${profile.username} | Codevcast`);
     useEffect(() => {
         if (isMountedRef) isMountedRef.current = true;
 
@@ -54,7 +54,6 @@ const EditInfo: React.FC<IProps> = ({ isOwnProfile, profile }) => {
             dispatch(updateProfileInfo(user));
 
             if (isMountedRef.current) {
-                console.log(user);
                 setIsUpdating(false);
 
                 history.push(`/user/${profile.username}/info`);

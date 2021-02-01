@@ -24,7 +24,7 @@ const Followers: React.FC<IProps> = ({ username }) => {
     let isMountedRef = useRef<boolean | null>(null);
     const [error, setError] = useState<IError | null>(null);
 
-    useDocumentTitle(`Followers - ${username} | Foodie`);
+    useDocumentTitle(`Followers - ${username} | Codevcast`);
     useEffect(() => {
         fetchFollowers();
 
@@ -53,7 +53,6 @@ const Followers: React.FC<IProps> = ({ username }) => {
                 setIsLoading(false);
                 setError(e)
             }
-            console.log(e);
         }
     };
 

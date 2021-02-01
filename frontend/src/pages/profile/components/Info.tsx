@@ -10,7 +10,7 @@ const Info = () => {
         isOwnProfile: state.auth.username === state.profile.username
     }));
     const history = useHistory();
-    useDocumentTitle(`Info - ${profile.username} | Foodie`);
+    useDocumentTitle(`Info - ${profile.username} | Codevcast`);
 
     return (
         <div className="p-4 bg-white rounded-md min-h-10rem shadow-lg">
@@ -18,7 +18,7 @@ const Info = () => {
                 <h3 className="text-gray-500">Info</h3>
                 {isOwnProfile && (
                     <span
-                        className="underline cursor-pointer text-indigo-700 pr-4"
+                        className="underline cursor-pointer text-gray-700 pr-4"
                         onClick={() => history.push(`/user/${profile.username}/edit`)}
                     >
                         Edit

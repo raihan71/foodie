@@ -26,7 +26,7 @@ const MessagesList: React.FC<IProps> = ({ messages, userID, handleReadMessage })
                                     key={message.id}
                                 >
                                     <div
-                                        className={`flex justify-start cursor-pointer hover:bg-gray-100 px-2 py-3 relative ${(!message.seen && !message.isOwnMessage) && 'bg-indigo-100 hover:bg-indigo-200'}`}
+                                        className={`flex justify-start cursor-pointer hover:bg-gray-100 px-2 py-3 relative ${(!message.seen && !message.isOwnMessage) && 'bg-purple-100 hover:bg-gray-200'}`}
                                         key={message.id}
                                         onClick={() => handleReadMessage(message.isOwnMessage ? message.to : message.from)}
                                     >
@@ -42,7 +42,7 @@ const MessagesList: React.FC<IProps> = ({ messages, userID, handleReadMessage })
                                                 {!message.isOwnMessage ? message.from.username : message.to.username}
                                             </h5>
                                             {/* -- MESSAGE--- */}
-                                            <span className={`block max-w-sm whitespace-nowrap overflow-hidden overflow-ellipsis ${(message.seen || message.isOwnMessage) ? 'text-gray-400' : 'text-indigo-600 font-medium'} text-sm`}>
+                                            <span className={`block max-w-sm whitespace-nowrap overflow-hidden overflow-ellipsis ${(message.seen || message.isOwnMessage) ? 'text-gray-400' : 'text-purple-600 font-medium'} text-sm`}>
                                                 {message.isOwnMessage && 'You:'} {message.text}
                                             </span>
                                             {/* --- DATE --- */}

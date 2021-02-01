@@ -70,7 +70,7 @@ const CommentOptions: React.FC<IProps> = (props) => {
                 <div className=" w-56 flex flex-col bg-white rounded-md shadow-lg overflow-hidden absolute top-8 right-3 border border-gray-200 divide-y divide-gray-100">
                     {props.isOwnComment && (
                         <h4
-                            className="p-4 flex items-center hover:bg-indigo-700 hover:text-white cursor-pointer"
+                            className="p-4 flex items-center hover:bg-gray-700 hover:text-white cursor-pointer"
                             onClick={onClickEdit}
                         >
                             <EditOutlined className="mr-4" />
@@ -78,7 +78,7 @@ const CommentOptions: React.FC<IProps> = (props) => {
                         </h4>
                     )}
                     <h4
-                        className="p-4 flex items-center hover:bg-indigo-700 hover:text-white cursor-pointer"
+                        className="p-4 flex items-center hover:bg-gray-700 hover:text-white cursor-pointer"
                         onClick={onClickDelete}
                     >
                         <DeleteOutlined className="mr-4" />

@@ -58,7 +58,6 @@ const sessionOptions = {
 };
 
 
-console.log('NODE_ENV =', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1); // trust first proxy
   sessionOptions.cookie.secure = true // serve secure cookies

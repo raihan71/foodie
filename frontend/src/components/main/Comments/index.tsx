@@ -156,7 +156,7 @@ const Comments: React.FC<IProps> = (props) => {
             <div className="bg-white rounded-b-md border-t border-gray-200">
                 {(!error && comments.items.length !== 10) && (
                     <span
-                        className="text-indigo-700 text-sm font-bold cursor-pointer inline-block p-2"
+                        className="text-gray-700 text-sm font-bold cursor-pointer inline-block p-2"
                         onClick={() => fetchComment({
                             offset: 1,
                             limit: 10,
@@ -221,7 +221,7 @@ const Comments: React.FC<IProps> = (props) => {
                     <div className="flex items-center justify-between mt-4">
                         <span className="text-xs ml-14 text-gray-400">Updating Comment. Press Esc to cancel</span>
                         <span
-                            className="text-xs text-indigo-500 underline p-2 cursor-pointer"
+                            className="text-xs text-purple-500 underline p-2 cursor-pointer"
                             onClick={handleCancelUpdate}
                         >
                             Cancel

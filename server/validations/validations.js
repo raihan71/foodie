@@ -74,21 +74,20 @@ module.exports = {
             const result = schema.validate(req.body);
 
             if (result.error) {
-                console.log(result.error);
                 return res.status(400).send(
                     makeErrorJson({
                         type: INVALID_INPUT,
                         status_code: 400,
                         message: result.error.details[0].message
                     })
-                )
+                );
             } else {
                 if (!req.value) {
-                    req.value = {}
+                    req.value = {};
                 }
                 req.value['body'] = result.value;
                 next();
             }
-        }
+        };
     }
 };

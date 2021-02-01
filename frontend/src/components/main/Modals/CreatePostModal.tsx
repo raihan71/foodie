@@ -72,7 +72,7 @@ const CreatePostModal: React.FC<IProps> = (props) => {
                             id="post"
                             name="post"
                             onChange={handleDescriptionChange}
-                            placeholder="What's on your mind?"
+                            placeholder="(Post something challenging, e.g., bug)"
                             rows={3}
                             readOnly={isLoadingCreatePost}
                             value={description}
@@ -94,16 +94,16 @@ const CreatePostModal: React.FC<IProps> = (props) => {
                                     htmlFor="photos"
                                 >
                                     <div
-                                        className="group flex items-center justify-center w-10 h-10 border-2 border-dashed border-gray-400 hover:border-indigo-700"
+                                        className="group flex items-center justify-center w-10 h-10 border-2 border-dashed border-gray-400 hover:border-gray-700"
                                         title="Upload photo"
                                     >
-                                        <FileImageOutlined className="text-xl flex items-center justify-center text-gray-400 hover:text-indigo-700" />
+                                        <FileImageOutlined className="text-xl flex items-center justify-center text-gray-400 hover:text-gray-700" />
                                     </div>
                                 </label>
                             </div>
                             {/* ---- POST BUTTON --- */}
                             <div className="flex justify-end">
-                                <button onClick={onSubmit} disabled={isLoadingCreatePost}>Create Post</button>
+                                <button className="bg-gray-700 hover:bg-gray-800" onClick={onSubmit} disabled={isLoadingCreatePost}>Create Post</button>
                             </div>
                         </div>
                         {/*  ---- IMAGES PREVIEWS LIST ----- */}

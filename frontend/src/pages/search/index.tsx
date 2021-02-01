@@ -118,18 +118,18 @@ const Search: React.FC<RouteComponentProps> = ({ history }) => {
             <div className="contain">
                 <h2 className="text-lg laptop:text-2xl">
                     You searched for:
-                    <span className="text-indigo-700">{searchQuery}</span>
+                    <span className="text-gray-700">{searchQuery}</span>
                 </h2>
                 <span className="text-gray-400">Search Result</span>
                 <ul className="space-x-4 mt-4">
                     <li
-                        className={`inline-block border-b-4 border-transparent px-2 py-4 cursor-pointer font-medium hover:border-indigo-700 text-gray-400 ${searchType !== 'posts' && ' border-indigo-700 text-gray-900'}`}
+                        className={`inline-block border-b-4 border-transparent px-2 py-4 cursor-pointer font-medium hover:border-gray-700 text-gray-400 ${searchType !== 'posts' && ' border-gray-700 text-gray-900'}`}
                         onClick={onClickUserTab}
                     >
                         Users
                     </li>
                     <li
-                        className={`inline-block border-b-4 border-transparent px-2 py-4 cursor-pointer font-medium hover:border-indigo-700 text-gray-400 ${searchType === 'posts' && ' border-indigo-700 text-gray-900'}`}
+                        className={`inline-block border-b-4 border-transparent px-2 py-4 cursor-pointer font-medium hover:border-gray-700 text-gray-400 ${searchType === 'posts' && ' border-gray-700 text-gray-900'}`}
                         onClick={onClickPostTab}
                     >
                         Posts

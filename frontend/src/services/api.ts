@@ -3,9 +3,9 @@ import { logoutStart } from '~/redux/action/authActions';
 import store from '~/redux/store/store';
 import { IFetchParams, IPost, IProfile, IRegister } from '~/types/types';
 
-const foodieUrl = process.env.REACT_APP_FOODIE_URL || 'http://localhost:9000';
-const foodieApiVersion = process.env.REACT_APP_FOODIE_API_VERSION || 'v1';
-axios.defaults.baseURL = `${foodieUrl}/api/${foodieApiVersion}`;
+const codevcastUrl = process.env.REACT_APP_CODEVCAST_URL || 'http://localhost:9000';
+const codevcastApiVersion = process.env.REACT_APP_CODEVCAST_API_VERSION || 'v1';
+axios.defaults.baseURL = `${codevcastUrl}/api/${codevcastApiVersion}`;
 axios.defaults.withCredentials = true;
 
 let isLogoutTriggered = false;

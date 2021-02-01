@@ -37,11 +37,8 @@ const Notification: React.FC<IProps> = ({ isAuth }) => {
 
     useEffect(() => {
         socket.on('newNotification', ({ notification, count }: { notification: INotification, count: number }) => {
-            console.log('STATE: ', notifications);
             setUnreadCount(unreadCount + 1);
             setNotifications((prev: any) => ({ ...prev, items: [notification, ...prev.items] }));
-
-            console.log(notification);
         });
 
         document.addEventListener('click', handleClickOutside);
@@ -114,7 +111,6 @@ const Notification: React.FC<IProps> = ({ isAuth }) => {
             });
             setNotifications({ ...notifications, items: updatedNotifs });
         } catch (e) {
-            console.log(e);
         }
     };
 
@@ -131,7 +127,6 @@ const Notification: React.FC<IProps> = ({ isAuth }) => {
             });
             setNotifications({ ...notifications, items: updatedNotifs });
         } catch (e) {
-            console.log(e);
         }
     }
 
@@ -153,10 +148,10 @@ const Notification: React.FC<IProps> = ({ isAuth }) => {
                 <div className="notification-wrapper fixed top-14 pb-14 laptop:pb-0 laptop:top-10 right-0 h-screen laptop:h-auto w-full laptop:w-30rem bg-white shadow-lg rounded-md laptop:absolute"
                 >
                     {/*  ----- HEADER ----- */}
-                    <div className="py-2 px-4 border-b-gray-200 flex justify-between items-center bg-indigo-700 laptop:rounded-t-md">
+                    <div className="py-2 px-4 border-b-gray-200 flex justify-between items-center bg-gray-700 laptop:rounded-t-md">
                         <h6 className="text-white">Notifications</h6>
                         <span
-                            className="text-sm  p-2 text-white opacity-80 rounded-md hover:bg-indigo-500"
+                            className="text-sm  p-2 text-white opacity-80 rounded-md hover:bg-gray-500"
                             onClick={handleMarkAllUnread}
                         >
                             Mark all as read

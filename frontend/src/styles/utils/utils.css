@@ -29,7 +29,7 @@
 }
 
 .animate-loader-dark {
-    @apply bg-indigo-700;
+    @apply bg-purple-700;
     animation-name: blink-dark; 
     
 }
@@ -41,7 +41,7 @@
 
 @keyframes blink-dark {
   to {
-    background: #a29afc;
+    background: #c5c1e7;
   }
 }
 

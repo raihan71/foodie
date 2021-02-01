@@ -349,11 +349,11 @@ router.get(
                 }
             ]);
 
-            if (people.length === 0) return res.status(404).send(makeErrorJson({ message: 'No suggested people.' }))
+            if (people.length === 0) return res.status(404).send(makeErrorJson({ message: 'No suggested developer.' }))
 
             res.status(200).send(makeResponseJson(people));
         } catch (e) {
-            console.log('CANT GET SUGGESTED PEOPLE', e);
+            console.log('CANT GET SUGGESTED DEVELOPER', e);
             res.status(500).send(makeErrorJson());
         }
     }

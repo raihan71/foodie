@@ -144,10 +144,10 @@ const Messages: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
             {isMessagesOpen && (
                 <div className="messages-wrapper h-screen laptop:h-auto fixed top-14 laptop:top-10 pb-14 laptop:pb-0 right-0 w-full laptop:w-30rem bg-white shadow-lg laptop:rounded-md laptop:absolute">
                     {/*  ----- HEADER ----- */}
-                    <div className="px-4 py-2 border-b-gray-200 flex justify-between items-center bg-indigo-700 laptop:rounded-t-md">
+                    <div className="px-4 py-2 border-b-gray-200 flex justify-between items-center bg-gray-700 laptop:rounded-t-md">
                         <h6 className="text-white">Messages</h6>
                         <span
-                            className="text-sm flex p-2 text-white rounded-md hover:bg-indigo-500"
+                            className="text-sm flex p-2 text-white rounded-md hover:bg-gray-500"
                             onClick={onClickCompose}
                         >
                             <FormOutlined className="flex items-center justify-center mr-2" />
@@ -173,7 +173,7 @@ const Messages: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
                     )}
                     {(!isLoading && !error && messages.length >= 10) && (
                         <div className="see-more-button flex items-center justify-center py-4" onClick={() => fetchMessages(offset)}>
-                            <span className="text-indigo-700 text-sm font-medium">
+                            <span className="text-gray-700 text-sm font-medium">
                                 See more...
                         </span>
                         </div>

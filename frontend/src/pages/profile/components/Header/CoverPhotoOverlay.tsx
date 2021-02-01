@@ -45,7 +45,7 @@ const CoverPhotoOverlay: React.FC<IProps> = (props) => {
                                 </div>
                             ) : (
                                     <label
-                                        className="p-3 laptop:p-4 bg-indigo-700 absolute right-4 top-4  laptop:relative text-white font-medium rounded-full cursor-pointer hover:bg-indigo-800"
+                                        className="p-3 laptop:p-4 bg-gray-700 absolute right-4 top-4  laptop:relative text-white font-medium rounded-full cursor-pointer hover:bg-gray-800"
                                         htmlFor="cover"
                                     >
                                         {window.screen.width > 800 ? 'Change Cover Photo' : (

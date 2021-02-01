@@ -96,10 +96,10 @@ const SearchInput: React.FC<IProps> = (props) => {
     }
 
     return (
-        <div className={`input-wrapper relative flex flex-col items-center ${props.inputClassName}`}>
+        <div className={`input-wrapper relative flex flex-col items-center focus-within:text-gray-600 ${props.inputClassName}`}>
             <SearchOutlined className="flex items-center justify-center text-gray-400 absolute left-3 top-3 z-50" />
             <input
-                className="!border-gray-100 !pl-10 !py-2"
+                className="border border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent !pl-10 !py-2"
                 placeholder="Search..."
                 type="text"
                 onFocus={onFocusInput}
@@ -118,7 +118,7 @@ const SearchInput: React.FC<IProps> = (props) => {
                     )}
                     {(!isSuggesting && !error && suggestions.length !== 0) && suggestions.map((user) => (
                         <div
-                            className="hover:bg-indigo-100 p-2 cursor-pointer"
+                            className="hover:bg-gray-100 p-2 cursor-pointer"
                             key={user.id}
                             onClick={() => onClickItem(user)}
                         >

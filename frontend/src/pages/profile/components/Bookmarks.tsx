@@ -33,7 +33,7 @@ const Bookmarks: React.FC<IProps> = ({ username, isOwnProfile }) => {
     const [offset, setOffset] = useState(0);
     let isMountedRef = useRef<boolean | null>(null);
 
-    useDocumentTitle(`Bookmarks - ${username} | Foodie`);
+    useDocumentTitle(`Bookmarks - ${username} | Codevcast`);
     useEffect(() => {
         fetchBookmarks();
 
@@ -119,7 +119,7 @@ const Bookmarks: React.FC<IProps> = ({ username, isOwnProfile }) => {
                                         </BookmarkButton>
                                     </div>
                                     <Link
-                                        className="flex flex-grow justify-between hover:bg-indigo-100 "
+                                        className="flex flex-grow justify-between hover:bg-gray-100 "
                                         key={item.id}
                                         to={`/post/${item.post.id}`}
                                     >
