@@ -83,7 +83,6 @@ const Notification: React.FC<IProps> = ({ isAuth }) => {
         } catch (e) {
             setLoading(false);
             setError(e);
-            console.log(e);
         }
     };
 

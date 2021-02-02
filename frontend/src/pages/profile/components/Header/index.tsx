@@ -89,7 +89,6 @@ const Header: React.FC<IProps> = ({ profile, auth }) => {
             toast.dismiss();
             toast.dark('Profile picture successfully changed.', { hideProgressBar: true });
         } catch (e) {
-            console.log(e);
             setIsUploadingProfileImage(false);
             toast.error(e.error.message);
         }
@@ -113,7 +112,6 @@ const Header: React.FC<IProps> = ({ profile, auth }) => {
                 toast.dismiss();
                 toast.dark('Cover photo successfully changed.', { hideProgressBar: true });
             } catch (e) {
-                console.log(e);
                 setIsUploadingCoverPhoto(false);
                 toast.error(e.error.message);
             }
