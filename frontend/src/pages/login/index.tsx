@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
-    useDocumentTitle('Login to Codevcast');
+    useDocumentTitle('Login to Codevcast Network');
     useEffect(() => {
         return () => {
             dispatch(setAuthErrorMessage(null));

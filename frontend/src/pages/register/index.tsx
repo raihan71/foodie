@@ -17,7 +17,7 @@ const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const dispatch = useDispatch();
 
-    useDocumentTitle('Register to Codevcast');
+    useDocumentTitle('Register to Codevcast Network');
     useEffect(() => {
         return () => {
             dispatch(setAuthErrorMessage(null));
