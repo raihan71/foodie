@@ -18,6 +18,7 @@ Modal.setAppElement('#root');
 
 const CreatePostModal: React.FC<IProps> = (props) => {
     const [description, setDescription] = useState('');
+    const [privacy, setPrivacy] = useState('public');
     const isLoadingCreatePost = useSelector((state: IRootReducer) => state.loading.isLoadingCreatePost);
     const { imageFile, onFileChange, clearFiles, removeImage } = useFileHandler<IImage[]>('multiple', []);
 
@@ -26,10 +27,16 @@ const CreatePostModal: React.FC<IProps> = (props) => {
         setDescription(val);
     };
 
+    const handlePrivacyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const val = e.target.value;
+        setPrivacy(val);
+    }
+
     const onSubmit = () => {
         if (description) {
             const formData = new FormData();
             formData.set('description', description);
+            formData.set('privacy', privacy);
 
             if (imageFile.length !== 0) {
                 imageFile.forEach((image) => {
@@ -56,18 +63,30 @@ const CreatePostModal: React.FC<IProps> = (props) => {
             overlayClassName="modal-overlay"
         >
             <div className="relative">
-
                 <div
-                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200"
+                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-indigo-1100"
                     onClick={props.closeModal}
                 >
-                    <CloseOutlined className="p-2  outline-none text-gray-500" />
+                    <CloseOutlined className="p-2  outline-none text-gray-500 dark:text-white" />
                 </div>
                 <div className="w-full laptop:w-40rem p-4 laptop:px-8">
-                    <h2>Create Post</h2>
+                    <h2 className="dark:text-white">Create Post</h2>
+                    <select
+                        className="!py-1 !text-sm w-32 dark:bg-indigo-1100 dark:text-white dark:border-gray-800"
+                        id="privacy"
+                        name="privacy"
+                        onChange={handlePrivacyChange}
+                        value={privacy}
+                    >
+                        <option value="public">Public</option>
+                        <option value="follower">Follower</option>
+                        <option value="private">Only Me</option>
+                    </select>
+                    <br />
                     <br />
                     <div className="flex flex-col">
                         <textarea
+                            className="dark:bg-indigo-1100 dark:text-white dark:!border-gray-800"
                             cols={3}
                             id="post"
                             name="post"

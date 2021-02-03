@@ -2,6 +2,7 @@ import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import Modal from 'react-modal';
 import { toast } from 'react-toastify';
+import useDidMount from '~/hooks/useDidMount';
 import { updatePost } from '~/services/api';
 import { IError, IPost } from '~/types/types';
 
@@ -18,27 +19,40 @@ Modal.setAppElement('#root');
 
 const EditPostModal: React.FC<IProps> = (props) => {
     const [description, setDescription] = useState(props.post.description || '');
+    const [privacy, setPrivacy] = useState(props.post.privacy || 'public');
     const [isUpdating, setIsUpdating] = useState(false);
     const [error, setError] = useState<IError | null>(null);
+    const didMount = useDidMount();
 
     const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const val = e.target.value;
         setDescription(val);
     }
 
+    const handlePrivacyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const val = e.target.value as IPost['privacy'];
+        setPrivacy(val);
+    }
+
     const handleUpdatePost = async () => {
         try {
             setIsUpdating(true);
-            const updatedPost = await updatePost(props.post.id, { description: description.trim() });
+            const updatedPost = await updatePost(props.post.id, { description: description.trim(), privacy });
+
+            if (didMount) {
+                setIsUpdating(false);
+            }
+
             props.updateSuccessCallback(updatedPost);
-            setIsUpdating(false);
             props.closeModal();
             toast.dark('Post updated successfully.', {
                 progressStyle: { backgroundColor: '#4caf50' }
             });
         } catch (e) {
-            setIsUpdating(false);
-            setError(e);
+            if (didMount) {
+                setIsUpdating(false);
+                setError(e);
+            }
         }
     };
 
@@ -54,10 +68,10 @@ const EditPostModal: React.FC<IProps> = (props) => {
         >
             <div className="relative">
                 <div
-                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200"
+                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-indigo-1100"
                     onClick={props.closeModal}
                 >
-                    <CloseOutlined className="p-2  outline-none text-gray-500" />
+                    <CloseOutlined className="p-2  outline-none text-gray-500 dark:text-white" />
                 </div>
                 {error && (
                     <span className="p-4 bg-red-100 text-red-500 block">
@@ -65,13 +79,26 @@ const EditPostModal: React.FC<IProps> = (props) => {
                     </span>
                 )}
                 <div className="p-4 laptop:px-8 w-full laptop:w-40rem">
-                    <h2>
+                    <h2 className="dark:text-white">
                         <EditOutlined className="inline-flex items-center justify-center mr-2 pt-2" />
                         Edit Post
                     </h2>
+                    <select
+                        className="!py-1 !text-sm w-32 dark:bg-indigo-1100 dark:text-white dark:border-gray-800"
+                        id="privacy"
+                        name="privacy"
+                        onChange={handlePrivacyChange}
+                        value={privacy}
+                    >
+                        <option value="public">Public</option>
+                        <option value="follower">Follower</option>
+                        <option value="private">Only Me</option>
+                    </select>
+                    <br />
                     <br />
                     <label htmlFor="update-post">Description</label>
                     <textarea
+                        className="dark:bg-indigo-1100 dark:text-white dark:border-gray-800"
                         name="update-post"
                         id="update-post"
                         cols={30}
@@ -82,7 +109,7 @@ const EditPostModal: React.FC<IProps> = (props) => {
                     />
                     <div className="flex justify-between mt-4">
                         <button
-                            className="button--muted !rounded-full"
+                            className="button--muted !rounded-full dark:bg-indigo-1100 dark:text-white dark:hover:bg-indigo-1100"
                             onClick={props.closeModal}
                         >
                             Cancel

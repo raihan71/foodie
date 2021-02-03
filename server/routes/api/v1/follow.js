@@ -1,5 +1,5 @@
 const { Types } = require('mongoose');
-const { makeResponseJson, makeErrorJson } = require('../../../helpers/utils');
+const { makeResponseJson, makeErrorJson, sessionizeUser } = require('../../../helpers/utils');
 const { validateObjectID, isAuthenticated } = require('../../../middlewares/middlewares');
 const Follow = require('../../../schemas/FollowSchema');
 const User = require('../../../schemas/UserSchema');
@@ -320,6 +320,7 @@ router.get(
 
             if (myFollowing) following = myFollowing.following;
 
+            console.log(limit)
             const people = await User.aggregate([
                 {
                     $match: {
@@ -328,9 +329,7 @@ router.get(
                         }
                     }
                 },
-                {
-                    $sample: { size: limit }
-                },
+                ...(limit < 10 ? ([{ $sample: { size: limit } }]) : []),
                 { $skip: skip },
                 { $limit: limit },
                 {
@@ -350,6 +349,19 @@ router.get(
             ]);
 
             if (people.length === 0) return res.status(404).send(makeErrorJson({ message: 'No suggested developer.' }))
+
+            // I want my own account to be on top :) 
+            // Just remove this xD
+            if (limit < 10) { // If less than 10, I want to only append mine in Home page Suggested people list
+                const julius = await User.findOne({ username: 'jgudo' });
+                if (julius) {
+                    people.unshift({
+                        ...sessionizeUser(julius),
+                        isFollowing: following.includes(julius._id.toString())
+                    });
+                }
+            }
+            // ---
 
             res.status(200).send(makeResponseJson(people));
         } catch (e) {

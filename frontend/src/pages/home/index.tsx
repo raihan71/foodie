@@ -2,14 +2,16 @@ import { CoffeeOutlined, UndoOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { useDispatch, useSelector } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import withAuth from "~/components/hoc/withAuth";
 import CreatePostModal from "~/components/main/Modals/CreatePostModal";
 import PostItem from "~/components/main/PostItem";
 import SuggestedPeople from "~/components/main/SuggestedPeople";
 import Avatar from "~/components/shared/Avatar";
 import Loader from "~/components/shared/Loader";
 import { PostLoader } from "~/components/shared/Loaders";
+import { SUGGESTED_PEOPLE } from "~/constants/routes";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useModal from "~/hooks/useModal";
 import { clearNewsFeed, createPostStart, deleteFeedPost, getNewsFeedStart, hasNewFeed, updateFeedPost } from "~/redux/action/feedActions";
@@ -21,7 +23,11 @@ interface ILocation {
     from: string;
 }
 
-const Home: React.FC<RouteComponentProps<any, any, ILocation>> = (props) => {
+interface IProps extends RouteComponentProps<any, any, ILocation> {
+    isAuth: boolean;
+}
+
+const Home: React.FC<IProps> = (props) => {
     const state = useSelector((state: IRootReducer) => ({
         newsFeed: state.newsFeed,
         auth: state.auth,
@@ -35,6 +41,7 @@ const Home: React.FC<RouteComponentProps<any, any, ILocation>> = (props) => {
 
     useDocumentTitle('Codevcast Network | Social network platform for devs');
     useEffect(() => {
+        console.log('TRIGGER', from)
         if (state.newsFeed.items.length === 0 || from === '/') {
             dispatch(clearNewsFeed());
             dispatch(getNewsFeedStart({ offset: 0 }));
@@ -74,31 +81,35 @@ const Home: React.FC<RouteComponentProps<any, any, ILocation>> = (props) => {
 
     const infiniteRef = useInfiniteScroll({
         loading: state.isLoadingFeed,
-        hasNextPage: !state.error && state.newsFeed.items.length !== 0,
+        hasNextPage: !state.error && state.newsFeed.items.length >= 10,
         onLoadMore: fetchNewsFeed,
         scrollContainer: 'window',
-        threshold: 200
     });
 
     return (
         <div className="laptop:px-6% pt-20 flex items-start">
             {/*  --- SIDE MENU --- */}
-            <div className="hidden laptop:block laptop:w-1/4 laptop:rounded-md bg-white laptop:sticky laptop:top-20 mr-4 laptop:shadow-lg divide-y-2">
-                <SideMenu username={state.auth.username} profilePicture={state.auth.profilePicture} />
+            <div className="hidden laptop:block laptop:w-1/4 laptop:rounded-md bg-white laptop:sticky laptop:top-20 mr-4 laptop:shadow-lg divide-y-2 dark:bg-indigo-1000">
+                {props.isAuth && (
+                    <SideMenu username={state.auth.username} profilePicture={state.auth.profilePicture} />
+                )}
             </div>
-            <div className="w-full laptop:w-2/4 relative" ref={infiniteRef as React.RefObject<HTMLDivElement>}>
+            <div className="w-full laptop:w-2/4 relative">
                 {/* --- CREATE POST INPUT ---- */}
-                <div className="flex items-center justify-start px-4 laptop:px-0">
-                    <Avatar url={state.auth.profilePicture} className="mr-2" />
-                    <div className="flex-grow">
-                        <input
-                            type="text"
-                            placeholder="Hi, how is it going?"
-                            onClick={() => !state.isLoadingCreatePost && openModal()}
-                            readOnly={state.isLoadingFeed || state.isLoadingCreatePost}
-                        />
+                {props.isAuth && (
+                    <div className="flex items-center justify-start mb-4 px-4 laptop:px-0">
+                        <Avatar url={state.auth.profilePicture} className="mr-2" />
+                        <div className="flex-grow">
+                            <input
+                                className="dark:bg-indigo-1000 dark:!border-gray-800 dark:text-white"
+                                type="text"
+                                placeholder="Create a post."
+                                onClick={() => (!state.isLoadingCreatePost && !state.isLoadingFeed) && openModal()}
+                                readOnly={state.isLoadingFeed || state.isLoadingCreatePost}
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
                 {/*  --- HAS NEW FEED NOTIF --- */}
                 {state.newsFeed.hasNewFeed && (
                     <button
@@ -109,19 +120,32 @@ const Home: React.FC<RouteComponentProps<any, any, ILocation>> = (props) => {
                         New Feed Available
                     </button>
                 )}
-
                 {/* --- CREATE POST MODAL ----- */}
-                <CreatePostModal
-                    isOpen={isOpen}
-                    openModal={openModal}
-                    closeModal={closeModal}
-                    dispatchCreatePost={dispatchCreatePost}
-                />
+                {(props.isAuth && isOpen) && (
+                    <CreatePostModal
+                        isOpen={isOpen}
+                        openModal={openModal}
+                        closeModal={closeModal}
+                        dispatchCreatePost={dispatchCreatePost}
+                    />
+                )}
                 {(state.error && state.newsFeed.items.length === 0) && (
-                    <div className="flex flex-col w-full min-h-24rem items-center justify-center">
-                        <CoffeeOutlined className="text-8xl text-gray-300 mb-4" />
-                        <h5 className="text-gray-500">News feed is empty</h5>
-                        <p className="text-gray-400">Start following people or create your first post.</p>
+                    <div className="flex flex-col w-full min-h-24rem px-8 items-center justify-center text-center">
+                        {state.error.status_code === 404 ? (
+                            <>
+                                <CoffeeOutlined className="text-8xl text-gray-300 mb-4 dark:text-gray-800" />
+                                <h5 className="text-gray-500">News feed is empty</h5>
+                                <p className="text-gray-400">Start following people or create your first post.</p>
+                                <br />
+                                <Link className="underline dark:text-indigo-400" to={SUGGESTED_PEOPLE}>
+                                    See Suggested People
+                                </Link>
+                            </>
+                        ) : (
+                                <h5 className="text-gray-500 italic">
+                                    {state.error?.error?.message || 'Something went wrong :('}
+                                </h5>
+                            )}
                     </div>
                 )}
                 {/* ---- LOADING INDICATOR ----- */}
@@ -136,25 +160,32 @@ const Home: React.FC<RouteComponentProps<any, any, ILocation>> = (props) => {
                         <PostLoader />
                     </div>
                 )}
+                {(!props.isAuth && !state.isLoadingFeed && !state.error) && (
+                    <div className="px-4 laptop:px-0 py-4 mb-4">
+                        <h2 className="dark:text-white">Public posts that might <br />interest you.</h2>
+                    </div>
+                )}
                 {/* ---- NEWS FEED ---- */}
                 {(state.newsFeed.items.length !== 0) && (
                     <>
                         <TransitionGroup component={null}>
-                            {state.newsFeed.items.map((post: IPost) => post.author && ( // avoid render posts with null author
-                                <CSSTransition
-                                    timeout={500}
-                                    classNames="fade"
-                                    key={post.id}
-                                >
-                                    <PostItem
+                            <div ref={infiniteRef as React.RefObject<HTMLDivElement>}>
+                                {state.newsFeed.items.map((post: IPost) => post.author && ( // avoid render posts with null author
+                                    <CSSTransition
+                                        timeout={500}
+                                        classNames="fade"
                                         key={post.id}
-                                        post={post}
-                                        likeCallback={likeCallback}
-                                        updateSuccessCallback={updateSuccessCallback}
-                                        deleteSuccessCallback={deleteSuccessCallback}
-                                    />
-                                </CSSTransition>
-                            ))}
+                                    >
+                                        <PostItem
+                                            key={post.id}
+                                            post={post}
+                                            likeCallback={likeCallback}
+                                            updateSuccessCallback={updateSuccessCallback}
+                                            deleteSuccessCallback={deleteSuccessCallback}
+                                        />
+                                    </CSSTransition>
+                                ))}
+                            </div>
                         </TransitionGroup>
                         {state.isLoadingFeed && (
                             <div className="flex justify-center py-6">
@@ -171,10 +202,12 @@ const Home: React.FC<RouteComponentProps<any, any, ILocation>> = (props) => {
             </div>
             {/* --- SUGGESTED PEOPLE --- */}
             <div className="hidden laptop:block laptop:w-1/4 laptop:sticky laptop:top-20 ml-4">
-                <SuggestedPeople />
+                {props.isAuth && (
+                    <SuggestedPeople />
+                )}
             </div>
         </div >
     );
 };
 
-export default Home;
+export default withAuth(Home);

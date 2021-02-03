@@ -52,11 +52,11 @@ const CropProfileModal: React.FC<IProps> = (props) => {
     }
 
     const clearState = () => {
-        props.closeModal();
         setCroppedAreaPixels(null);
         setZoom(1);
         setAspect(1);
         setCrop({ x: 0, y: 0 });
+        props.closeModal();
     }
 
     return (
@@ -67,15 +67,15 @@ const CropProfileModal: React.FC<IProps> = (props) => {
                 onRequestClose={props.closeModal}
                 contentLabel="Example Modal"
                 className="modal"
-                shouldCloseOnOverlayClick={false}
+                shouldCloseOnOverlayClick={!isCropping}
                 overlayClassName="modal-overlay"
             >
-                <div className="w-30rem bg-white rounded-md">
+                <div className="w-full laptop:w-30rem rounded-md">
                     <div className="p-4 flex items-start justify-between">
-                        <h2>Crop Photo</h2>
+                        <h2 className="text-xl laptop:text-2xl dark:text-white">Crop Photo</h2>
                         <div className="flex items-center">
                             <button
-                                className="button--muted !rounded-full"
+                                className="button--muted !rounded-full  dark:bg-indigo-1100 dark:text-white dark:hover:bg-indigo-1100"
                                 disabled={isCropping}
                                 onClick={clearState}
                             >

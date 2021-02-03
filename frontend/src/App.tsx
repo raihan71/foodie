@@ -17,6 +17,7 @@ import Profile from "./pages/profile";
 import SocialAuthFailed from './pages/redirects/SocialAuthFailed';
 import Register from "./pages/register";
 import Search from "./pages/search";
+import SuggestedPeople from './pages/suggested_people';
 import { loginSuccess } from "./redux/action/authActions";
 import ProtectedRoute from "./routers/ProtectedRoute";
 import PublicRoute from "./routers/PublicRoute";
@@ -71,11 +72,12 @@ function App() {
           <Switch>
             <PublicRoute path={ROUTE.REGISTER} component={Register} />
             <PublicRoute path={ROUTE.LOGIN} component={Login} />
-            <ProtectedRoute path={ROUTE.SEARCH} exact component={Search} />
-            <ProtectedRoute path={ROUTE.HOME} exact component={Home} />
+            <ProtectedRoute path={ROUTE.SEARCH} component={Search} />
+            <Route path={ROUTE.HOME} exact render={(props: any) => <Home key={Date.now()} {...props} />} />
             <ProtectedRoute path={ROUTE.POST} component={Post} />
             <ProtectedRoute path={ROUTE.PROFILE} component={Profile} />
             <ProtectedRoute path={ROUTE.CHAT} component={Chat} />
+            <ProtectedRoute path={ROUTE.SUGGESTED_PEOPLE} component={SuggestedPeople} />
             <Route path={ROUTE.SOCIAL_AUTH_FAILED} component={SocialAuthFailed} />
             <Route component={PageNotFound} />
           </Switch>

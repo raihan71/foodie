@@ -1,5 +1,6 @@
 import { FormOutlined, MessageOutlined } from '@ant-design/icons';
 import { useEffect, useRef, useState } from "react";
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import Badge from '~/components/shared/Badge';
@@ -77,11 +78,11 @@ const Messages: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
         }
     }
 
-    const fetchMessages = async (initOffset = 0) => {
+    const fetchMessages = async () => {
         try {
             setLoading(true);
             setError(null);
-            const result = await getMessages({ offset: initOffset });
+            const result = await getMessages({ offset });
 
             setMessages([...messages, ...result]);
             setOffset(offset + 1);
@@ -134,15 +135,22 @@ const Messages: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
         setMessagesOpen(false);
     }
 
+    const infiniteRef = useInfiniteScroll({
+        loading: isLoading,
+        hasNextPage: !error && messages.length >= 10,
+        onLoadMore: fetchMessages,
+        scrollContainer: 'parent',
+    });
+
     return (
         <div className="relative">
             <div onClick={toggleMessages}>
                 <Badge count={count}>
-                    <MessageOutlined className="messages-toggle flex items-center justify-center text-xl focus:outline-none" />
+                    <MessageOutlined className="messages-toggle flex items-center justify-center text-xl focus:outline-none dark:text-white" />
                 </Badge>
             </div>
             {isMessagesOpen && (
-                <div className="messages-wrapper h-screen laptop:h-auto fixed top-14 laptop:top-10 pb-14 laptop:pb-0 right-0 w-full laptop:w-30rem bg-white shadow-lg laptop:rounded-md laptop:absolute">
+                <div className="messages-wrapper h-screen border border-transparent dark:border-gray-800 laptop:h-auto fixed top-14 laptop:top-10 pb-14 laptop:pb-0 right-0 w-full laptop:w-30rem bg-white dark:bg-indigo-1000 shadow-lg laptop:rounded-md laptop:absolute">
                     {/*  ----- HEADER ----- */}
                     <div className="px-4 py-2 border-b-gray-200 flex justify-between items-center bg-gray-700 laptop:rounded-t-md">
                         <h6 className="text-white">Messages</h6>
@@ -154,30 +162,32 @@ const Messages: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
                             Compose
                         </span>
                     </div>
+                    {/* --- LOADER FIRST FETCH */}
                     {(isLoading && !error && messages.length === 0) && (
                         <div className="flex items-center justify-center py-8">
                             <Loader />
                         </div>
                     )}
+                    {/* --- ERROR MESSAGE ---- */}
                     {(messages.length === 0 && error) && (
                         <div className="flex justify-center py-6">
-                            <p className="text-gray-400 italic">{error?.error?.message || 'You have no messages.'}</p>
+                            <p className="text-gray-400 italic">
+                                {error.status_code === 404
+                                    ? 'You have no messages.'
+                                    : (error?.error?.message || 'Something went wrong :(')
+                                }
+                            </p>
                         </div>
                     )}
+                    {/* --- MSG LIST --- */}
                     {(messages.length !== 0) && (
                         <MessagesList
                             messages={messages}
-                            userID={id}
                             handleReadMessage={handleReadMessage}
+                            infiniteScrollRef={infiniteRef}
                         />
                     )}
-                    {(!isLoading && !error && messages.length >= 10) && (
-                        <div className="see-more-button flex items-center justify-center py-4" onClick={() => fetchMessages(offset)}>
-                            <span className="text-gray-700 text-sm font-medium">
-                                See more...
-                        </span>
-                        </div>
-                    )}
+                    {/* ---- LOADER FETCHING MORE --- */}
                     {(isLoading && !error && messages.length !== 0) && (
                         <div className="flex items-center justify-center py-4">
                             <Loader />
@@ -185,12 +195,14 @@ const Messages: React.FC<{ isAuth: boolean; }> = ({ isAuth }) => {
                     )}
                 </div>
             )}
-            <ComposeMessageModal
-                isOpen={composeModal.isOpen}
-                openModal={composeModal.openModal}
-                closeModal={composeModal.closeModal}
-                userID={id}
-            />
+            {composeModal.isOpen && (
+                <ComposeMessageModal
+                    isOpen={composeModal.isOpen}
+                    openModal={composeModal.openModal}
+                    closeModal={composeModal.closeModal}
+                    userID={id}
+                />
+            )}
         </div>
     );
 };

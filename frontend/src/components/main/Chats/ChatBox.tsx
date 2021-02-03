@@ -6,6 +6,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Avatar from "~/components/shared/Avatar";
 import Loader from "~/components/shared/Loader";
 import { displayTime } from "~/helpers/utils";
+import useDidMount from "~/hooks/useDidMount";
 import { closeChat, getMessagesSuccess, minimizeChat, newMessageArrived } from "~/redux/action/chatActions";
 import { getUserMessages, sendMessage } from "~/services/api";
 import socket from "~/socket/socket";
@@ -22,12 +23,11 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
     const [error, setError] = useState<IError | null>(null);
     const [isLoading, setLoading] = useState(false);
     const [isSending, setSending] = useState(false);
-    let isMountedRef = useRef<boolean | null>(null);
+    const didMount = useDidMount(true);
     let dummyEl = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
         if (target.chats.length === 0) fetchMessages();
-        if (isMountedRef) isMountedRef.current = true;
 
         socket.on('newMessage', (message: IMessage) => {
             dispatch(newMessageArrived(target.username, message));
@@ -39,10 +39,6 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
 
         if (dummyEl.current) {
             dummyEl.current.scrollIntoView();
-        }
-
-        return () => {
-            if (isMountedRef) isMountedRef.current = false;
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -62,7 +58,7 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
 
             dispatch(getMessagesSuccess(target.username, messages.reverse()));
 
-            if (isMountedRef.current) {
+            if (didMount) {
                 setText('');
                 setLoading(false);
                 setError(null);
@@ -73,7 +69,7 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                 dummyEl.current?.scrollIntoView();
             }
         } catch (e) {
-            if (isMountedRef.current) {
+            if (didMount) {
                 setLoading(false);
                 setError(e);
             }
@@ -87,13 +83,13 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
 
                 await sendMessage(text, target.id);
 
-                if (isMountedRef.current) {
+                if (didMount) {
                     setSending(false);
                     setText('');
                     setError(null);
                 }
             } catch (e) {
-                if (isMountedRef.current) {
+                if (didMount) {
                     setSending(false);
                     setError(e);
                 }
@@ -112,9 +108,9 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
     }
 
     return (
-        <div className={`bg-white p-3 relative w-full h-full laptop:w-20rem laptop:shadow-lg laptop:rounded-t-xl laptop:bottom-0 laptop:right-24 laptop:border laptop:border-gray-400`}>
-            <div className="flex justify-between pb-3 border-b border-gray-200">
-                <Link to={`/user/${target.username}`}>
+        <div className={`bg-white dark:bg-indigo-1100 p-3 relative w-full h-full laptop:w-20rem laptop:shadow-lg laptop:rounded-t-xl laptop:bottom-0 laptop:right-24 laptop:border laptop:border-gray-400 dark:border-gray-800`}>
+            <div className="flex justify-between pb-3 border-b border-gray-200 dark:border-gray-800">
+                <Link className="dark:text-indigo-400" to={`/user/${target.username}`}>
                     <div className="flex items-center">
                         <Avatar url={target.profilePicture} className="mr-2" />
                         <h5>{target.username}</h5>
@@ -122,13 +118,15 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                 </Link>
                 <div className="hidden laptop:flex laptop:items-center">
                     <div
-                        className="post-option-toggle p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200"
+                        className="post-option-toggle p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:text-white dark:hover:bg-indigo-1000"
+                        title="Minimize Chat"
                         onClick={onMinimize}
                     >
                         <LineOutlined className="flex items-center justify-center" />
                     </div>
                     <div
-                        className="post-option-toggle p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200"
+                        className="post-option-toggle p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:text-white dark:hover:bg-indigo-1000"
+                        title="Close Chat"
                         onClick={onCloseChat}
                     >
                         <CloseOutlined className="flex items-center justify-center" />
@@ -136,7 +134,7 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                 </div>
             </div>
             {/* --- MESSAGES BODY ---- */}
-            <div className="min-h-24rem max-h-85% laptop:max-h-80 bg-gray-100 overflow-y-scroll pb-14">
+            <div className="min-h-24rem max-h-85% laptop:max-h-80 bg-gray-100 dark:bg-indigo-1000 overflow-y-scroll pb-14 scrollbar">
                 {(isLoading && target.chats.length === 0 && !error) && (
                     <div className="flex justify-center min-h-18rem py-2">
                         <Loader />
@@ -175,7 +173,7 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                 )}
                 {(target.chats.length !== 0) && (
                     <TransitionGroup component={null}>
-                        {target.chats.map(msg => (
+                        {target.chats.map((msg, i) => (
                             <CSSTransition
                                 timeout={500}
                                 classNames="fade"
@@ -191,20 +189,27 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                                             <Avatar
                                                 url={msg.isOwnMessage ? user.profilePicture : target.profilePicture}
                                                 size="xs"
-                                                className={`self-end !bg-cover !bg-no-repeat rounded-full ${msg.isOwnMessage ? 'ml-1 order-2' : 'mr-1 order-1'}`}
+                                                className={`self-end flex-shrink-0 !bg-cover !bg-no-repeat rounded-full ${msg.isOwnMessage ? 'ml-1 order-2' : 'mr-1 order-1'}`}
                                             />
                                             {/*  -- MESSAGE-- */}
                                             <span
-                                                className={`py-2 px-3  text-sm rounded-xl ${msg.isOwnMessage ? 'bg-purple-700 text-white order-1' : 'bg-gray-300 order-2'}`}>
+                                                className={`py-2 px-3 break-all text-sm rounded-xl ${msg.isOwnMessage ? 'bg-indigo-700 text-white order-1' : 'bg-gray-300 order-2'}`}>
                                                 {msg.text}
                                             </span>
                                             <span ref={dummyEl}></span>
                                         </div>
                                     </div>
                                     <div className={`flex pb-2 ${msg.isOwnMessage ? 'justify-end mr-8' : 'justify-start ml-8'}`}>
-                                        <span className="text-gray-400 text-1xs">
+                                        {/* ---DATE ---- */}
+                                        <span className={`text-gray-400 text-1xs ${msg.isOwnMessage ? 'order-2' : 'order-1'}`}>
                                             {displayTime(msg.createdAt, true)}
                                         </span>
+                                        {/* ---- SEEN ---- */}
+                                        {(msg.isOwnMessage && msg.seen && i === target.chats.length - 1) && (
+                                            <span className={`text-gray-400 mx-2 text-1xs italic flex-grow ${msg.isOwnMessage ? 'order-1' : 'order-2'}`}>
+                                                &nbsp;Seen
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                             </CSSTransition>
@@ -212,9 +217,9 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                     </TransitionGroup>
                 )}
             </div>
-            <div className="absolute bottom-0 left-0 bg-white w-full flex px-2 py-3 border-t border-gray-200">
+            <div className="absolute bottom-0 left-0 bg-white dark:bg-indigo-1100 w-full flex px-2 py-3 border-t border-gray-200 dark:border-gray-800">
                 <input
-                    className="flex-grow !border-gray-400 !rounded-r-none !py-0"
+                    className="flex-grow !border-gray-400 !rounded-r-none !py-0 dark:bg-indigo-1000 dark:text-white dark:!border-gray-800"
                     type="text"
                     onChange={handleTextChange}
                     onKeyDown={handleTextKeyDown}

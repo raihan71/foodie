@@ -1,5 +1,6 @@
 import { LikeOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
+import useDidMount from '~/hooks/useDidMount';
 import { likePost } from '~/services/api';
 import { IPost } from '~/types/types';
 
@@ -12,6 +13,7 @@ interface IProps {
 const LikeButton: React.FC<IProps> = (props) => {
     const [isLiked, setIsLiked] = useState(props.isLiked);
     const [isLoading, setLoading] = useState(false);
+    const didMount = useDidMount();
 
     useEffect(() => {
         setIsLiked(props.isLiked);
@@ -24,17 +26,21 @@ const LikeButton: React.FC<IProps> = (props) => {
             setLoading(true);
 
             const { post, state } = await likePost(props.postID);
-            setLoading(false);
-            setIsLiked(state);
+            if (didMount) {
+                setLoading(false);
+                setIsLiked(state);
+            }
+
             props.likeCallback(post);
         } catch (e) {
-            setLoading(false);
+            didMount && setLoading(false);
+            console.log(e);
         }
     }
 
     return (
         <span
-            className={` px-1 py-2 rounded-md flex items-center justify-center ${isLiked ? 'text-gray-700 font-bold' : 'text-gray-700 hover:text-gray-800'} cursor-pointer hover:bg-gray-100 text-l w-2/4 ${isLoading && 'opacity-50'}`}
+            className={` px-1 py-2 rounded-md flex items-center justify-center hover:bg-gray-100 cursor-pointer text-l w-2/4  ${isLiked ? 'text-indigo-700 font-bold dark:text-indigo-400 dark:hover:bg-indigo-1100' : 'text-gray-700 dark:hover:bg-indigo-1100 dark:hover:text-white  dark:bg-indigo-1000 hover:text-gray-800 dark:text-gray-400'} ${isLoading && 'opacity-50'}`}
             onClick={dispatchLike}
         >
 

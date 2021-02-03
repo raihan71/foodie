@@ -8,6 +8,7 @@ export interface IRootReducer {
     newsFeed: INewsFeed;
     profile: IProfile;
     chats: IChatState
+    settings: ISettingsState;
 }
 
 export interface IErrorState {
@@ -39,7 +40,7 @@ export interface IUser {
 
 export interface IPost {
     id: string;
-    privacy: 'public' | 'private' | 'friends';
+    privacy: 'public' | 'private' | 'follower';
     photos: string[];
     comments: any[];
     description: string;
@@ -49,6 +50,7 @@ export interface IPost {
     likesCount: number;
     isBookmarked: boolean;
     isLiked: boolean;
+    isOwnPost: boolean;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -117,6 +119,10 @@ export interface IMessage {
     seen: boolean;
     unseenCount?: number;
     isOwnMessage?: boolean;
+}
+
+export interface ISettingsState {
+    theme: 'light' | 'dark';
 }
 
 export interface IBookmark {

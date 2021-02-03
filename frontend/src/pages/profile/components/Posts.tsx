@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import { toast } from "react-toastify";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -7,6 +7,7 @@ import PostItem from '~/components/main/PostItem';
 import Avatar from "~/components/shared/Avatar";
 import Loader from "~/components/shared/Loader";
 import { PostLoader } from "~/components/shared/Loaders";
+import useDidMount from "~/hooks/useDidMount";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useModal from "~/hooks/useModal";
 import { createPost, getPosts } from "~/services/api";
@@ -25,18 +26,11 @@ const Posts: React.FC<IProps> = (props) => {
     const [offset, setOffset] = useState(0); // Pagination
     const [error, setError] = useState<IError | null>(null);
     const { isOpen, openModal, closeModal } = useModal();
-
-    let isMountedRef = useRef<boolean | null>(null);
+    const didMount = useDidMount(true);
 
     useDocumentTitle(`Posts - ${props.username} | Codevcast`);
     useEffect(() => {
         fetchPosts();
-
-        if (isMountedRef) isMountedRef.current = true;
-
-        return () => {
-            if (isMountedRef) isMountedRef.current = false;
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -77,7 +71,7 @@ const Posts: React.FC<IProps> = (props) => {
             setIsLoading(true);
             const fetchedPosts = await getPosts(props.username, { offset });
 
-            if (isMountedRef.current) {
+            if (didMount) {
                 setPosts([...posts, ...fetchedPosts]);
                 setIsLoading(false);
 
@@ -86,7 +80,7 @@ const Posts: React.FC<IProps> = (props) => {
                 }
             }
         } catch (e) {
-            if (isMountedRef.current) {
+            if (didMount) {
                 setError(e);
                 setIsLoading(false);
             }
@@ -98,7 +92,7 @@ const Posts: React.FC<IProps> = (props) => {
             setIsCreatingPost(true);
             const post = await createPost(form);
 
-            if (isMountedRef.current) {
+            if (didMount) {
                 setPosts([post, ...posts]);
                 setIsCreatingPost(false);
                 setError(null);
@@ -107,7 +101,7 @@ const Posts: React.FC<IProps> = (props) => {
             toast.dismiss();
             toast.dark('Post created successfully.');
         } catch (e) {
-            if (isMountedRef.current) {
+            if (didMount) {
                 setIsCreatingPost(false);
             }
 
@@ -131,6 +125,7 @@ const Posts: React.FC<IProps> = (props) => {
                     <Avatar url={props.auth.profilePicture} className="mr-2" />
                     <div className="flex-grow">
                         <input
+                            className="dark:bg-indigo-1100 dark:text-white dark:border-gray-800"
                             type="text"
                             placeholder="Hi, how is it going?"
                             onClick={() => !isCreatingPost && openModal()}
@@ -140,12 +135,14 @@ const Posts: React.FC<IProps> = (props) => {
                 </div>
             )}
             {/* --- CREATE POST MODAL ----- */}
-            <CreatePostModal
-                isOpen={isOpen}
-                openModal={openModal}
-                closeModal={closeModal}
-                dispatchCreatePost={dispatchCreatePost}
-            />
+            {isOpen && (
+                <CreatePostModal
+                    isOpen={isOpen}
+                    openModal={openModal}
+                    closeModal={closeModal}
+                    dispatchCreatePost={dispatchCreatePost}
+                />
+            )}
             {(isLoading || isCreatingPost) && (
                 <div className="mt-4 px-2 overflow-hidden space-y-6 pb-10">
                     <PostLoader />

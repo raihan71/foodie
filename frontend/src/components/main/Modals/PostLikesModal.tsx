@@ -2,6 +2,7 @@ import { CloseOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Loader from '~/components/shared/Loader';
+import useDidMount from '~/hooks/useDidMount';
 import { getPostLikes } from '~/services/api';
 import { IError, IUser } from '~/types/types';
 import UserCard from '../UserCard';
@@ -23,6 +24,7 @@ const PostLikesModal: React.FC<IProps> = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [offset, setOffset] = useState(0);
     const [error, setError] = useState<IError | null>(null);
+    const didMount = useDidMount(true);
 
     useEffect(() => {
         if (props.isOpen) {
@@ -36,12 +38,16 @@ const PostLikesModal: React.FC<IProps> = (props) => {
             setIsLoading(true);
             const result = await getPostLikes(props.postID, { offset: initOffset });
 
-            setOffset(offset + 1);
-            setLikes(result);
-            setIsLoading(false);
+            if (didMount) {
+                setOffset(offset + 1);
+                setLikes(result);
+                setIsLoading(false);
+            }
         } catch (e) {
-            setIsLoading(false);
-            setError(e);
+            if (didMount) {
+                setIsLoading(false);
+                setError(e);
+            }
         }
     };
 
@@ -57,25 +63,25 @@ const PostLikesModal: React.FC<IProps> = (props) => {
         >
             <div className="relative transition-all min-w-15rem">
                 <div
-                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200"
+                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-indigo-1100"
                     onClick={props.closeModal}
                 >
-                    <CloseOutlined className="p-2  outline-none text-gray-500" />
+                    <CloseOutlined className="p-2  outline-none text-gray-500 dark:text-white" />
                 </div>
                 {(error && likes.length === 0) && (
                     <span className="p-4 bg-red-100 text-red-500 block">
                         {error.error.message}
                     </span>
                 )}
-                <h3 className="py-4 px-8">Likes</h3>
+                <h3 className="py-4 px-8 dark:text-white">Likes</h3>
                 {(isLoading && likes.length === 0) && (
                     <div className="flex min-h-10rem min-w-15rem items-center justify-center py-8">
                         <Loader />
                     </div>
                 )}
                 {likes.length !== 0 && (
-                    <div className="p-4 px-4 w-30rem max-h-70vh overflow-y-scroll">
-                        <div className="divide-y divide-gray-100">
+                    <div className="p-4 px-4 w-30rem max-h-70vh overflow-y-scroll scrollbar">
+                        <div className="divide-y divide-gray-100 dark:divide-gray-800">
                             {likes.map(user => (
                                 <div key={user.id}>
                                     <UserCard profile={user} isFollowing={user.isFollowing} />
@@ -84,7 +90,7 @@ const PostLikesModal: React.FC<IProps> = (props) => {
                         </div>
                         {(!isLoading && likes.length >= 10) && (
                             <div className="flex items-center justify-center pt-2 border-t border-gray-100">
-                                <span className="text-gray-700 text-sm font-medium cursor-pointer">
+                                <span className="text-indigo-700 dark:text-indigo-400 text-sm font-medium cursor-pointer">
                                     Load more
                                 </span>
                             </div>

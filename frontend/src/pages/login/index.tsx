@@ -1,4 +1,4 @@
-import { LockFilled } from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeOutlined, LockFilled } from '@ant-design/icons';
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { IRootReducer } from '~/types/types';
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isPasswordVisible, setPasswordVisible] = useState(false);
     const dispatch = useDispatch();
 
     useDocumentTitle('Login to Codevcast Network');
@@ -59,7 +60,9 @@ const Login: React.FC = () => {
                 }}
             >
                 {/* --- LOGO --- */}
-                <img src={image} alt="Codevcast Logo" className="w-24 absolute left-8 top-8" />
+                <Link className="absolute left-8 top-8" to="/">
+                    <img src={logo} alt="Foodie Logo" className="w-24" />
+                </Link>
                 {/* -- INFO --- */}
                 <h3 className="animate-fade text-white w-10/12 mb-14">
                     You get stuck coding, need some help? You're in the right place.
@@ -75,11 +78,13 @@ const Login: React.FC = () => {
                 </a>
             </div>
             <div className="animate-fade laptop:w-5/12 w-full flex items-center justify-start relative">
-                <img
-                    src={image}
-                    alt="Codevcast Logo"
-                    className="w-24 absolute left-0 right-0 mx-auto top-8 laptop:hidden"
-                />
+                <Link to="/">
+                    <img
+                        src={logo_dark}
+                        alt="Foodie Logo"
+                        className="w-24 absolute left-0 right-0 mx-auto top-8 laptop:hidden"
+                    />
+                </Link>
                 {error && (
                     <div className="py-2 w-full text-center bg-red-100 border-red-300 absolute top-0 left-0">
                         <p className="text-red-500">{error?.error?.message || 'Something went wrong :('}</p>
@@ -109,15 +114,15 @@ const Login: React.FC = () => {
                                     onChange={onUsernameChange}
                                 />
                             </div>
-                            <div>
+                            <div className="relative">
                                 <label htmlFor="password" className="sr-only">Password</label>
                                 <input
                                     id="password"
                                     name="password"
-                                    type="password"
+                                    type={isPasswordVisible ? 'text' : 'password'}
                                     autoComplete="current-password"
                                     required
-                                    className={`text-center ${error ? 'input--error' : ''} laptop:text-left`}
+                                    className={`text-center !pr-12 ${error ? 'input--error' : ''} laptop:text-left`}
                                     placeholder="Password"
                                     minLength={8}
                                     maxLength={100}
@@ -125,6 +130,19 @@ const Login: React.FC = () => {
                                     readOnly={isLoading}
                                     value={password}
                                 />
+                                <div className="absolute right-0 top-0 bottom-0 my-auto flex items-center justify-center w-12 h-12 hover:bg-gray-200 cursor-pointer rounded-tr-full rounded-br-full z-10">
+                                    {isPasswordVisible ? (
+                                        <EyeInvisibleOutlined
+                                            className="h-full w-full flex items-center justify-center outline-none text-gray-500"
+                                            onClick={() => setPasswordVisible(false)}
+                                        />
+                                    ) : (
+                                            <EyeOutlined
+                                                className="h-full w-full flex items-center justify-center outline-none"
+                                                onClick={() => setPasswordVisible(true)}
+                                            />
+                                        )}
+                                </div>
                             </div>
                         </div>
                         <Link className="font-medium text-sm text-gray-400 inline-block laptop:block my-4  laptop:mb-0 hover:text-gray-500 hover:underline laptop:w-2/4 laptop:pl-4" to="/">
@@ -141,7 +159,13 @@ const Login: React.FC = () => {
                         </div>
                     </form>
                     <div className="text-center mt-8">
-                        <Link to={REGISTER} className="font-medium hover:underline">I dont have an account</Link>
+                        <Link
+                            className="underline font-medium"
+                            onClick={(e) => isLoading && e.preventDefault()}
+                            to={REGISTER}
+                        >
+                            I dont have an account
+                        </Link>
                     </div>
                     {/* --- COPYRIGHT -- */}
                     <Footer />

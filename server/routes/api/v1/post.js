@@ -71,10 +71,13 @@ router.post(
             // Notify followers that new post has been made 
             const io = req.app.get('io');
             followers.forEach((user) => {
-                io.to(user._id.toString()).emit('newFeed', post);
+                io.to(user._id.toString()).emit('newFeed', {
+                    ...post.toObject(),
+                    isOwnPost: false
+                });
             });
 
-            return res.status(200).send(makeResponseJson(post));
+            return res.status(200).send(makeResponseJson({ ...post.toObject(), isOwnPost: true }));
         } catch (e) {
             console.log(e);
             return res.status(401).send(makeErrorJson({ status_code: 401, message: 'You\'re not authorized to make a post.' }))
@@ -87,11 +90,15 @@ router.get(
     async (req, res, next) => {
         try {
             const { username } = req.params;
-            const { privacy, sortBy, sortOrder } = req.query;
+            const { sortBy, sortOrder } = req.query;
 
             const offset = parseInt(req.query.offset) || 0;
 
             const user = await User.findOne({ username });
+            const myFollowing = await Follow.findOne({ _user_id: req.user._id });
+            const following = (myFollowing && myFollowing.following) ? myFollowing.following : [];
+
+
             if (!user) return res.sendStatus(404);
 
             const limit = POST_LIMIT;
@@ -105,8 +112,10 @@ router.get(
                 [sortBy || 'createdAt']: sortOrder === 'asc' ? 1 : -1
             };
 
-            if (username === req.user.username && privacy) {
-                query.privacy.$in = ['public', privacy];
+            if (username === req.user.username) {
+                query.privacy.$in = ['public', 'private', 'follower'];
+            } else if (following.includes(user._id.toString())) {
+                query.privacy.$in = ['public', 'follower'];
             }
 
             const posts = await Post
@@ -130,10 +139,12 @@ router.get(
             const uPosts = posts.map((post) => { // POST WITH isLiked merged
                 const isPostLiked = post.isPostLiked(req.user._id);
                 const isBookmarked = req.user.isBookmarked(post._id);
+                const isOwnPost = post._author_id.toString() === req.user._id.toString();
 
                 return {
                     ...post.toObject(),
                     isBookmarked,
+                    isOwnPost,
                     isLiked: isPostLiked
                 }
             });
@@ -224,7 +235,7 @@ router.patch(
             if (!description && !privacy) return res.sendStatus(400);
 
             if (description) obj.description = description.trim();
-            if (privacy && (privacy === 'public' || privacy === 'private')) obj.privacy = privacy;
+            if (privacy) obj.privacy = privacy;
 
             const post = await Post.findById(post_id);
             if (!post) return res.sendStatus(404);
@@ -307,7 +318,8 @@ router.get(
 
             const isBookmarked = req.user.isBookmarked(post_id);
             const isPostLiked = post.isPostLiked(req.user._id);
-            const result = { ...post.toObject(), isLiked: isPostLiked, isBookmarked };
+            const isOwnPost = post._author_id.toString() === req.user._id.toString();
+            const result = { ...post.toObject(), isLiked: isPostLiked, isBookmarked, isOwnPost };
             res.status(200).send(makeResponseJson(result));
         } catch (e) {
             console.log('CANT GET POST', e);

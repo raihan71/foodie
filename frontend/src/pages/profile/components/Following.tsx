@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import UserCard from '~/components/main/UserCard';
 import Loader from "~/components/shared/Loader";
 import { UserLoader } from "~/components/shared/Loaders";
+import useDidMount from "~/hooks/useDidMount";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 import { getFollowing } from "~/services/api";
 import { IError, IProfile } from "~/types/types";
@@ -22,17 +23,11 @@ const Following: React.FC<IProps> = ({ username }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [offset, setOffset] = useState(0); // Pagination
     const [error, setError] = useState<IError | null>(null);
-    let isMountedRef = useRef<boolean | null>(null);
+    const didMount = useDidMount(true);
 
     useDocumentTitle(`Following - ${username} | Codevcast`);
     useEffect(() => {
         fetchFollowing();
-
-        if (isMountedRef) isMountedRef.current = true;
-
-        return () => {
-            if (isMountedRef) isMountedRef.current = false;
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -41,14 +36,15 @@ const Following: React.FC<IProps> = ({ username }) => {
             setIsLoading(true);
             const fetchedFollowing = await getFollowing(username, { offset });
 
-            if (isMountedRef.current) {
+            if (didMount) {
                 setFollowing([...followings, ...fetchedFollowing]);
                 setIsLoading(false);
                 setOffset(offset + 1);
                 setError(null);
             }
         } catch (e) {
-            if (isMountedRef.current) {
+            console.log(e);
+            if (didMount) {
                 setIsLoading(false);
                 setError(e);
             }
@@ -65,7 +61,7 @@ const Following: React.FC<IProps> = ({ username }) => {
 
     return (
         <div className="w-full" ref={infiniteRef as React.RefObject<HTMLDivElement>}>
-            {isLoading && (
+            {(isLoading && followings.length === 0) && (
                 <div className="min-h-10rem px-4">
                     <UserLoader includeButton={true} />
                     <UserLoader includeButton={true} />
@@ -73,7 +69,7 @@ const Following: React.FC<IProps> = ({ username }) => {
                     <UserLoader includeButton={true} />
                 </div>
             )}
-            {!isLoading && followings.length === 0 && (
+            {(!isLoading && followings.length === 0 && error) && (
                 <div className="w-full min-h-10rem flex items-center justify-center">
                     <h6 className="text-gray-400 italic">
                         {error?.error?.message || `${username} isn't following anyone.`}
@@ -82,7 +78,7 @@ const Following: React.FC<IProps> = ({ username }) => {
             )}
             {followings.length !== 0 && (
                 <div>
-                    <h4 className="text-gray-700 mb-4 ml-4 mt-4 laptop:mt-0">Following</h4>
+                    <h4 className="text-gray-700 dark:text-white mb-4 ml-4 mt-4 laptop:mt-0">Following</h4>
                     <TransitionGroup component={null}>
                         {followings.map(following => (
                             <CSSTransition
@@ -90,7 +86,7 @@ const Following: React.FC<IProps> = ({ username }) => {
                                 classNames="fade"
                                 key={following.user._id}
                             >
-                                <div className="bg-white rounded-md mb-4 shadow-md" key={following.user._id}>
+                                <div className="bg-white dark:bg-indigo-1000 rounded-md mb-4 shadow-md" key={following.user._id}>
                                     <UserCard
                                         profile={following.user}
                                         isFollowing={following.isFollowing}

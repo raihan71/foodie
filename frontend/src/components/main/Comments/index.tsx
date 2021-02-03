@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Avatar from '~/components/shared/Avatar';
 import Boundary from '~/components/shared/Boundary';
 import Loader from '~/components/shared/Loader';
+import useDidMount from '~/hooks/useDidMount';
 import useModal from '~/hooks/useModal';
 import { commentOnPost, getComments, updateComment } from "~/services/api";
 import { IComment, IFetchParams, IRootReducer } from "~/types/types";
@@ -49,16 +50,10 @@ const Comments: React.FC<IProps> = (props) => {
     const user = useSelector((state: IRootReducer) => state.auth);
     const [commentBody, setCommentBody] = useState('');
     const deleteModal = useModal();
-    let isMountedRef = useRef<boolean | null>(null);
+    const didMount = useDidMount(true);
 
     useEffect(() => {
         fetchComment({ offset: 0, limit: 1, sort: 'desc' });
-
-        if (isMountedRef) isMountedRef.current = true;
-
-        return () => {
-            if (isMountedRef) isMountedRef.current = false;
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -72,13 +67,13 @@ const Comments: React.FC<IProps> = (props) => {
             setIsLoading(true);
             const { comments: fetchedComments, commentsCount } = await getComments(postID, params);
 
-            if (isMountedRef.current) {
+            if (didMount) {
                 setOffset(offset + 1);
                 setComments({ items: [...fetchedComments.reverse(), ...comments.items], commentsCount });
                 setIsLoading(false);
             }
         } catch (e) {
-            if (isMountedRef.current) {
+            if (didMount) {
                 setIsLoading(false);
                 setError(e.error?.message || 'Something went wrong.');
             }
@@ -96,7 +91,7 @@ const Comments: React.FC<IProps> = (props) => {
                 setIsCommenting(true);
                 const comment = isUpdating ? await updateComment(targetID, commentBody) : await commentOnPost(postID, commentBody);
 
-                if (isMountedRef.current) {
+                if (didMount) {
                     if (isUpdating) {
                         handleUpdateCommentState(comment);
                     } else {
@@ -109,7 +104,7 @@ const Comments: React.FC<IProps> = (props) => {
                     setIsCommenting(false);
                 }
             } catch (e) {
-                if (isMountedRef.current) {
+                if (didMount) {
                     setIsCommenting(false);
                     setError(e.error.message);
                 }
@@ -145,7 +140,7 @@ const Comments: React.FC<IProps> = (props) => {
         // eslint-disable-next-line array-callback-return
         const filteredComments = comments.items.filter((comment) => comment.id !== commentID);
 
-        if (isMountedRef.current) {
+        if (didMount) {
             setTargetID('');
             setComments({ commentsCount: filteredComments.length, items: (filteredComments as IComment[]) });
         }
@@ -153,10 +148,10 @@ const Comments: React.FC<IProps> = (props) => {
 
     return !isCommentVisible ? null : (
         <Boundary>
-            <div className="bg-white rounded-b-md border-t border-gray-200">
+            <div className="rounded-b-md border-t border-gray-200 dark:border-gray-800">
                 {(!error && comments.items.length !== 10) && (
                     <span
-                        className="text-gray-700 text-sm font-bold cursor-pointer inline-block p-2"
+                        className="text-indigo-700 dark:text-indigo-400 text-sm font-bold cursor-pointer inline-block p-2"
                         onClick={() => fetchComment({
                             offset: 1,
                             limit: 10,
@@ -167,7 +162,7 @@ const Comments: React.FC<IProps> = (props) => {
                         {isLoading ? <div className="ml-8 py-2"><Loader size="sm" /></div> : 'Load more comments'}
                     </span>
                 )}
-                <div className="py-4 px-2 space-y-2 divide-y divide-gray-200">
+                <div className="py-4 px-2 space-y-2 divide-y divide-gray-200 dark:divide-gray-800">
                     {/* ----- COMMENT LIST ---------- */}
                     <TransitionGroup component={null}>
                         {comments.items.map((comment: IComment) => (
@@ -185,9 +180,9 @@ const Comments: React.FC<IProps> = (props) => {
                                     </Link>
                                     <div className="inline-flex items-start flex-col flex-grow">
                                         <Link to={`/user/${comment.author.username}`}>
-                                            <h5>{comment.author.username}</h5>
+                                            <h5 className="dark:text-indigo-400">{comment.author.username}</h5>
                                         </Link>
-                                        <p className="text-gray-800 min-w-full break-all">{comment.body}</p>
+                                        <p className="text-gray-800 min-w-full break-all dark:text-gray-200">{comment.body}</p>
                                         <div className="mt-2">
                                             <span className="text-xs text-gray-400">
                                                 {dayjs(comment.createdAt).fromNow()}
@@ -221,7 +216,7 @@ const Comments: React.FC<IProps> = (props) => {
                     <div className="flex items-center justify-between mt-4">
                         <span className="text-xs ml-14 text-gray-400">Updating Comment. Press Esc to cancel</span>
                         <span
-                            className="text-xs text-purple-500 underline p-2 cursor-pointer"
+                            className="text-xs text-indigo-500 dark:text-indigo-400 underline p-2 cursor-pointer"
                             onClick={handleCancelUpdate}
                         >
                             Cancel
@@ -230,11 +225,11 @@ const Comments: React.FC<IProps> = (props) => {
                 )}
                 {/*  ---- INPUT COMMENT ----- */}
                 {isCommentVisible && (
-                    <div className={`flex items-center py-4 px-2 ${isUpdating && 'bg-yellow-100'}`}>
+                    <div className={`flex items-center py-4 px-2 ${isUpdating && 'bg-yellow-100 dark:bg-indigo-1100 rounded-2xl'}`}>
                         <Avatar url={user.profilePicture} className="mr-2" />
                         <div className="flex-grow">
                             <input
-                                className={`${isCommenting && 'opacity-50'}`}
+                                className={`${isCommenting && 'opacity-50'} dark:bg-indigo-1100 dark:!border-gray-800 dark:text-white`}
                                 type="text"
                                 placeholder="Write a comment..."
                                 readOnly={isLoading || isCommenting}
@@ -247,13 +242,15 @@ const Comments: React.FC<IProps> = (props) => {
                     </div>
                 )}
             </div>
-            <DeleteCommentModal
-                isOpen={deleteModal.isOpen}
-                openModal={deleteModal.openModal}
-                closeModal={deleteModal.closeModal}
-                commentID={targetID}
-                deleteSuccessCallback={deleteSuccessCallback}
-            />
+            {deleteModal.isOpen && (
+                <DeleteCommentModal
+                    isOpen={deleteModal.isOpen}
+                    openModal={deleteModal.openModal}
+                    closeModal={deleteModal.closeModal}
+                    commentID={targetID}
+                    deleteSuccessCallback={deleteSuccessCallback}
+                />
+            )}
         </Boundary>
     );
 };
