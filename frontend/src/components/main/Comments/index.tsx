@@ -7,6 +7,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Avatar from '~/components/shared/Avatar';
 import Boundary from '~/components/shared/Boundary';
 import Loader from '~/components/shared/Loader';
+import Verified from '~/components/shared/Verified';
 import useDidMount from '~/hooks/useDidMount';
 import useModal from '~/hooks/useModal';
 import { commentOnPost, getComments, updateComment } from "~/services/api";
@@ -151,7 +152,7 @@ const Comments: React.FC<IProps> = (props) => {
             <div className="rounded-b-md border-t border-gray-200 dark:border-gray-800">
                 {(!error && comments.items.length !== 10) && (
                     <span
-                        className="text-indigo-700 dark:text-indigo-400 text-sm font-bold cursor-pointer inline-block p-2"
+                        className="text-gray-700 dark:text-gray-400 text-sm font-bold cursor-pointer inline-block p-2"
                         onClick={() => fetchComment({
                             offset: 1,
                             limit: 10,
@@ -180,7 +181,10 @@ const Comments: React.FC<IProps> = (props) => {
                                     </Link>
                                     <div className="inline-flex items-start flex-col flex-grow">
                                         <Link to={`/user/${comment.author.username}`}>
-                                            <h5 className="dark:text-indigo-400">{comment.author.username}</h5>
+                                            <div className="flex items-center">
+                                                <h5 className="dark:text-gray-400 mr-1">{comment.author.username}</h5>
+                                                {comment.author.isVerified && (<Verified />)}
+                                            </div>
                                         </Link>
                                         <p className="text-gray-800 min-w-full break-all dark:text-gray-200">{comment.body}</p>
                                         <div className="mt-2">
@@ -216,7 +220,7 @@ const Comments: React.FC<IProps> = (props) => {
                     <div className="flex items-center justify-between mt-4">
                         <span className="text-xs ml-14 text-gray-400">Updating Comment. Press Esc to cancel</span>
                         <span
-                            className="text-xs text-indigo-500 dark:text-indigo-400 underline p-2 cursor-pointer"
+                            className="text-xs text-gray-500 dark:text-gray-400 underline p-2 cursor-pointer"
                             onClick={handleCancelUpdate}
                         >
                             Cancel
@@ -225,11 +229,11 @@ const Comments: React.FC<IProps> = (props) => {
                 )}
                 {/*  ---- INPUT COMMENT ----- */}
                 {isCommentVisible && (
-                    <div className={`flex items-center py-4 px-2 ${isUpdating && 'bg-yellow-100 dark:bg-indigo-1100 rounded-2xl'}`}>
+                    <div className={`flex items-center py-4 px-2 ${isUpdating && 'bg-yellow-100 dark:bg-purple-1100 rounded-2xl'}`}>
                         <Avatar url={user.profilePicture} className="mr-2" />
                         <div className="flex-grow">
                             <input
-                                className={`${isCommenting && 'opacity-50'} dark:bg-indigo-1100 dark:!border-gray-800 dark:text-white`}
+                                className={`${isCommenting && 'opacity-50'} dark:bg-purple-1100 dark:!border-gray-800 dark:text-white`}
                                 type="text"
                                 placeholder="Write a comment..."
                                 readOnly={isLoading || isCommenting}

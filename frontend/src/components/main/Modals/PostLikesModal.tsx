@@ -63,7 +63,7 @@ const PostLikesModal: React.FC<IProps> = (props) => {
         >
             <div className="relative transition-all min-w-15rem">
                 <div
-                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-indigo-1100"
+                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-purple-1100"
                     onClick={props.closeModal}
                 >
                     <CloseOutlined className="p-2  outline-none text-gray-500 dark:text-white" />
@@ -90,7 +90,7 @@ const PostLikesModal: React.FC<IProps> = (props) => {
                         </div>
                         {(!isLoading && likes.length >= 10) && (
                             <div className="flex items-center justify-center pt-2 border-t border-gray-100">
-                                <span className="text-indigo-700 dark:text-indigo-400 text-sm font-medium cursor-pointer">
+                                <span className="text-gray-700 dark:text-gray-400 text-sm font-medium cursor-pointer">
                                     Load more
                                 </span>
                             </div>

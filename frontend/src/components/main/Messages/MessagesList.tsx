@@ -29,7 +29,7 @@ const MessagesList: React.FC<IProps> = (props) => {
                                         key={message.id}
                                     >
                                         <div
-                                            className={`flex justify-start cursor-pointer hover:bg-gray-100 dark:hover:bg-indigo-1100 border border-transparent dark:hover:border-indigo-700 px-2 py-3 relative ${(!message.seen && !message.isOwnMessage) && 'bg-indigo-100 dark:bg-indigo-1100 hover:bg-indigo-200'}`}
+                                            className={`flex justify-start cursor-pointer hover:bg-gray-100 dark:hover:bg-purple-1100 border border-transparent dark:hover:border-gray-700 px-2 py-3 relative ${(!message.seen && !message.isOwnMessage) && 'bg-gray-50 dark:bg-purple-1100 hover:bg-gray-100'}`}
                                             key={message.id}
                                             onClick={() => handleReadMessage(message.isOwnMessage ? message.to : message.from)}
                                         >
@@ -45,7 +45,7 @@ const MessagesList: React.FC<IProps> = (props) => {
                                                     {!message.isOwnMessage ? message.from.username : message.to.username}
                                                 </h5>
                                                 {/* -- MESSAGE--- */}
-                                                <span className={`block max-w-16rem laptop:max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis ${(message.seen || message.isOwnMessage) ? 'text-gray-400' : 'text-indigo-600 dark:text-indigo-400 font-medium'} text-sm`}>
+                                                <span className={`block max-w-16rem laptop:max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis ${(message.seen || message.isOwnMessage) ? 'text-gray-400' : 'text-gray-600 dark:text-gray-400 font-medium'} text-sm`}>
                                                     {message.isOwnMessage && 'You:'} {message.text}
                                                 </span>
                                                 {/* --- DATE --- */}

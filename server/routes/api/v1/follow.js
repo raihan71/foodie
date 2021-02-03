@@ -185,7 +185,8 @@ router.get(
                             username: '$userFollowing.username',
                             profilePicture: '$userFollowing.profilePicture',
                             email: '$userFollowing.email',
-                            fullname: '$userFollowing.fullname'
+                            fullname: '$userFollowing.fullname',
+                            isVerified: '$userFollowing.isVerified',
                         }
                     }
                 },
@@ -265,7 +266,8 @@ router.get(
                             username: '$userFollowers.username',
                             profilePicture: '$userFollowers.profilePicture',
                             email: '$userFollowers.email',
-                            fullname: '$userFollowers.fullname'
+                            fullname: '$userFollowers.fullname',
+                            isVerified: '$userFollowers.isVerified',
                         }
                     }
                 },
@@ -305,7 +307,7 @@ router.get(
     });
 
 router.get(
-    '/v1/people/suggested',
+    '/v1/developer/suggested',
     isAuthenticated,
     async (req, res, next) => {
         try {
@@ -320,8 +322,7 @@ router.get(
 
             if (myFollowing) following = myFollowing.following;
 
-            console.log(limit)
-            const people = await User.aggregate([
+            const developer = await User.aggregate([
                 {
                     $match: {
                         _id: {
@@ -343,27 +344,28 @@ router.get(
                         id: '$_id',
                         username: '$username',
                         profilePicture: '$profilePicture',
-                        isFollowing: 1
+                        isFollowing: 1,
+                        isVerified: '$isVerified'
                     }
                 }
             ]);
 
-            if (people.length === 0) return res.status(404).send(makeErrorJson({ message: 'No suggested developer.' }))
+            if (developer.length === 0) return res.status(404).send(makeErrorJson({ message: 'No suggested developer.' }))
 
             // I want my own account to be on top :) 
             // Just remove this xD
-            if (limit < 10) { // If less than 10, I want to only append mine in Home page Suggested people list
-                const julius = await User.findOne({ username: 'jgudo' });
-                if (julius) {
-                    people.unshift({
-                        ...sessionizeUser(julius),
-                        isFollowing: following.includes(julius._id.toString())
+            if (limit < 10) { // If less than 10, I want to only append mine in Home page Suggested developer list
+                const raihan = await User.findOne({ username: 'raihannismara' });
+                if (raihan) {
+                    developer.unshift({
+                        ...sessionizeUser(raihan),
+                        isFollowing: following.includes(raihan._id.toString())
                     });
                 }
             }
             // ---
 
-            res.status(200).send(makeResponseJson(people));
+            res.status(200).send(makeResponseJson(developer));
         } catch (e) {
             console.log('CANT GET SUGGESTED DEVELOPER', e);
             res.status(500).send(makeErrorJson());

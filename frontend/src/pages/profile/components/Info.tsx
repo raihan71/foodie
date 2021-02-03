@@ -13,12 +13,12 @@ const Info = () => {
     useDocumentTitle(`Info - ${profile.username} | Codevcast`);
 
     return (
-        <div className="p-4 bg-white dark:bg-indigo-1000 rounded-md min-h-10rem shadow-lg">
+        <div className="p-4 bg-white dark:bg-purple-1000 rounded-md min-h-10rem shadow-lg">
             <div className="flex justify-between">
                 <h3 className="text-gray-500 dark:text-white">Info</h3>
                 {isOwnProfile && (
                     <span
-                        className="underline cursor-pointer text-indigo-700 dark:text-indigo-400 pr-4"
+                        className="underline cursor-pointer text-gray-700 dark:text-gray-400 pr-4"
                         onClick={() => history.push(`/user/${profile.username}/edit`)}
                     >
                         Edit

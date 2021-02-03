@@ -43,7 +43,7 @@ const Following: React.FC<IProps> = ({ username }) => {
                 setError(null);
             }
         } catch (e) {
-            console.log(e);
+            
             if (didMount) {
                 setIsLoading(false);
                 setError(e);
@@ -86,7 +86,7 @@ const Following: React.FC<IProps> = ({ username }) => {
                                 classNames="fade"
                                 key={following.user._id}
                             >
-                                <div className="bg-white dark:bg-indigo-1000 rounded-md mb-4 shadow-md" key={following.user._id}>
+                                <div className="bg-white dark:bg-purple-1000 rounded-md mb-4 shadow-md" key={following.user._id}>
                                     <UserCard
                                         profile={following.user}
                                         isFollowing={following.isFollowing}

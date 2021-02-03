@@ -32,13 +32,13 @@ const FollowButton: React.FC<IProps> = (props) => {
             didMount && setLoading(false);
         } catch (e) {
             didMount && setLoading(false);
-            console.log(e);
+            
         }
     };
 
     return (
         <button
-            className={`${isFollowing && 'hover:bg-gray-200 bg-indigo-100 !border !border-indigo-500 text-indigo-700 dark:bg-indigo-1100 dark:text-indigo-400 dark:hover:bg-indigo-900 dark:hover:text-white'} flex items-center ${props.size === 'sm' && '!py-2 !px-3 !text-sm'}`}
+            className={`${isFollowing && 'bg-gray-100 hover:bg-gray-200 !border !border-gray-500 text-gray-700 dark:bg-purple-500 dark:text-white dark:hover:bg-purple-600 dark:hover:text-white'} ${!isFollowing && 'bg-gray-700 hover:bg-gray-800 !border !border-gray-500 text-white dark:bg-purple-500 dark:hover:bg-purple-600'} flex items-center ${props.size === 'sm' && '!py-2 !px-3 !text-sm'}`}
             disabled={isLoading}
             onClick={dispatchFollow}
         >

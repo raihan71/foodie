@@ -8,6 +8,7 @@ import { LOGIN } from '~/constants/routes';
 import useDocumentTitle from '~/hooks/useDocumentTitle';
 import bg from '~/images/cover/bg-register.jpg';
 import logo from '~/images/logo-codevcast.png';
+import logo_dark from '~/images/logo-codevcast-dark.png';
 import { registerStart } from '~/redux/action/authActions';
 import { setAuthErrorMessage } from '~/redux/action/errorActions';
 import { IRootReducer } from '~/types/types';
@@ -67,7 +68,7 @@ const Register: React.FC = () => {
             >
                 {/* --- LOGO --- */}
                 <Link className="absolute left-8 top-8" to="/">
-                    <img src={logo} alt="Foodie Logo" className="w-24" />
+                    <img src={logo_dark} alt="Codevcast Logo" className="w-24" />
                 </Link>
                 {/* -- INFO --- */}
                 <h3 className="animate-fade text-white w-11/12 mb-14">
@@ -86,8 +87,8 @@ const Register: React.FC = () => {
             <div className="relative animate-fade w-full text-center laptop:w-5/12 laptop:text-left flex items-center justify-start">
                 <Link to="/">
                     <img
-                        src={logo_dark}
-                        alt="Foodie Logo"
+                        src={logo}
+                        alt="Codevcast Logo"
                         className="w-24 absolute left-0 right-0 mx-auto top-8 laptop:hidden"
                     />
                 </Link>

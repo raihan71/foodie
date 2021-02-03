@@ -75,7 +75,7 @@ const CropProfileModal: React.FC<IProps> = (props) => {
                         <h2 className="text-xl laptop:text-2xl dark:text-white">Crop Photo</h2>
                         <div className="flex items-center">
                             <button
-                                className="button--muted !rounded-full  dark:bg-indigo-1100 dark:text-white dark:hover:bg-indigo-1100"
+                                className="button--muted !rounded-full  dark:bg-purple-1100 dark:text-white dark:hover:bg-purple-1100"
                                 disabled={isCropping}
                                 onClick={clearState}
                             >

@@ -84,7 +84,7 @@ const Followers: React.FC<IProps> = ({ username }) => {
                                 classNames="fade"
                                 key={follower.user._id}
                             >
-                                <div className="bg-white dark:bg-indigo-1000 rounded-md mb-4 shadow-md" key={follower.user._id}>
+                                <div className="bg-white dark:bg-purple-1000 rounded-md mb-4 shadow-md" key={follower.user._id}>
                                     <UserCard
                                         profile={follower.user}
                                         isFollowing={follower.isFollowing}

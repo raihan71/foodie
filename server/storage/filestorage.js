@@ -62,7 +62,7 @@ const deleteImageFromStorage = (...images) => {
 
             resolve('Successfully deleted.');
         } catch (e) {
-            console.log(e);
+            
             reject('Cannot delete images.');
         }
     });

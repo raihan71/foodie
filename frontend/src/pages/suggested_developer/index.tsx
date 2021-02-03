@@ -5,11 +5,11 @@ import UserCard from "~/components/main/UserCard";
 import Loader from "~/components/shared/Loader";
 import { UserLoader } from "~/components/shared/Loaders";
 import useDidMount from "~/hooks/useDidMount";
-import { getSuggestedPeople } from "~/services/api";
+import { getSuggestedDeveloper } from "~/services/api";
 import { IError, IProfile } from "~/types/types";
 
-const SuggestedPeople = () => {
-    const [people, setPeople] = useState<IProfile[]>([]);
+const SuggestedDeveloper = () => {
+    const [developer, setDeveloper] = useState<IProfile[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<IError | null>(null);
     const [offset, setOffset] = useState(0);
@@ -23,10 +23,10 @@ const SuggestedPeople = () => {
     const fetchSuggested = async () => {
         try {
             setIsLoading(true);
-            const users = await getSuggestedPeople({ offset });
+            const users = await getSuggestedDeveloper({ offset });
 
             if (didMount) {
-                setPeople([...people, ...users]);
+                setDeveloper([...developer, ...users]);
                 setOffset(offset + 1);
                 setIsLoading(false);
             }
@@ -40,7 +40,7 @@ const SuggestedPeople = () => {
 
     const infiniteRef = useInfiniteScroll({
         loading: isLoading,
-        hasNextPage: !error && people.length >= 10,
+        hasNextPage: !error && developer.length >= 10,
         onLoadMore: fetchSuggested,
         scrollContainer: 'window',
     });
@@ -48,10 +48,10 @@ const SuggestedPeople = () => {
     return (
         <div className="contain min-h-screen w-full py-24">
             <div className="mb-8">
-                <h2 className="dark:text-white">Suggested People</h2>
-                <p className="text-gray-400 text-sm">Follow people to see their updates</p>
+                <h2 className="dark:text-white">Suggested Developer</h2>
+                <p className="text-gray-400 text-sm">Follow developer to see their updates</p>
             </div>
-            {(isLoading && people.length === 0) && (
+            {(isLoading && developer.length === 0) && (
                 <div className="min-h-10rem px-4">
                     <UserLoader />
                     <UserLoader />
@@ -59,7 +59,7 @@ const SuggestedPeople = () => {
                     <UserLoader />
                 </div>
             )}
-            {(!isLoading && error && people.length === 0) && (
+            {(!isLoading && error && developer.length === 0) && (
                 <div className="flex min-h-10rem items-center justify-center">
                     <span className="text-gray-400 italic">
                         {(error as IError)?.error?.message || 'Something went wrong :('}
@@ -71,13 +71,13 @@ const SuggestedPeople = () => {
                     className="grid grid-cols-1 laptop:grid-cols-2 laptop:gap-x-4"
                     ref={infiniteRef as React.RefObject<HTMLDivElement>}
                 >
-                    {people.map(user => (
+                    {developer.map(user => (
                         <CSSTransition
                             timeout={500}
                             classNames="fade"
                             key={user.id}
                         >
-                            <div className="bg-white dark:bg-indigo-1000 rounded-md mb-4 shadow-md dark:shadow-none" key={user.id}>
+                            <div className="bg-white dark:bg-purple-1000 rounded-md mb-4 shadow-md dark:shadow-none" key={user.id}>
                                 <UserCard
                                     profile={user}
                                     isFollowing={user.isFollowing}
@@ -87,7 +87,7 @@ const SuggestedPeople = () => {
                     ))}
                 </div>
             </TransitionGroup>
-            {(isLoading && people.length >= 10 && !error) && (
+            {(isLoading && developer.length >= 10 && !error) && (
                 <div className="px-4 py-14 flex items-center justify-center">
                     <Loader />
                 </div>
@@ -96,4 +96,4 @@ const SuggestedPeople = () => {
     );
 };
 
-export default SuggestedPeople;
+export default SuggestedDeveloper;

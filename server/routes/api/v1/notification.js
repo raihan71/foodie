@@ -17,7 +17,7 @@ router.get(
 
             const notifications = await Notification
                 .find({ target: req.user._id })
-                .populate('target initiator', 'profilePicture username fullname')
+                .populate('target initiator', 'profilePicture username fullname isVerified')
                 .sort({ createdAt: -1 })
                 .limit(limit)
                 .skip(skip);
@@ -33,7 +33,7 @@ router.get(
 
             res.status(200).send(makeResponseJson(result));
         } catch (e) {
-            console.log(e);
+            
             res.status(500).send(e);
         }
     }

@@ -7,6 +7,7 @@ import withAuth from '~/components/hoc/withAuth';
 import DeletePostModal from '~/components/main/Modals/DeletePostModal';
 import Avatar from '~/components/shared/Avatar';
 import ImageGrid from '~/components/shared/ImageGrid';
+import Verified from '~/components/shared/Verified';
 import { LOGIN } from '~/constants/routes';
 import useModal from '~/hooks/useModal';
 import { IPost } from "~/types/types";
@@ -43,20 +44,20 @@ const PostItem: React.FC<IProps> = (props) => {
     const displayLikeMetric = (likesCount: number, isLiked: boolean) => {
         const like = likesCount > 1 ? 'like' : 'likes';
         const likeMinusSelf = (likesCount - 1) > 1 ? 'like' : 'likes';
-        const people = likesCount > 1 ? 'people' : 'person';
-        const peopleMinusSelf = (likesCount - 1) > 1 ? 'people' : 'person';
+        const developer = likesCount > 1 ? 'developer' : 'person';
+        const developerMinusSelf = (likesCount - 1) > 1 ? 'developer' : 'person';
 
         if (isLiked && likesCount <= 1) {
             return 'You like this.'
         } else if (isLiked && likesCount > 1) {
-            return `You and ${likesCount - 1} other ${peopleMinusSelf} ${likeMinusSelf} this.`;
+            return `You and ${likesCount - 1} other ${developerMinusSelf} ${likeMinusSelf} this.`;
         } else {
-            return `${likesCount} ${people} ${like} this.`;
+            return `${likesCount} ${developer} ${like} this.`;
         }
     }
 
     return (
-        <div className="flex flex-col bg-white rounded-lg my-4 p-4 first:mt-0 shadow-lg dark:bg-indigo-1000">
+        <div className="flex flex-col bg-white rounded-lg my-4 p-4 first:mt-0 shadow-lg dark:bg-purple-1000">
             {/* --- AVATAR AND OPTIONS */}
             <div className="flex justify-between items-center w-full">
                 <div className="flex">
@@ -65,13 +66,16 @@ const PostItem: React.FC<IProps> = (props) => {
                         className="mr-3"
                     />
                     <div className="flex flex-col">
-                        <Link className="dark:text-indigo-400" to={`/user/${post.author.username}`}>
-                            <h5 className="font-bold">{post.author.username}</h5>
+                        <Link className="dark:text-gray-400" to={`/user/${post.author.username}`}>
+                            <div className="flex items-center">
+                                <h5 className="font-bold mr-1">{post.author.username}</h5>
+                                {post.author.isVerified && (<Verified />)}
+                            </div>
                         </Link>
                         <div className="flex items-center space-x-1">
                             <span className="text-sm text-gray-500">{dayjs(post.createdAt).fromNow()}</span>
                             <div
-                                className={`w-4 h-4 rounded-full flex items-center justify-center ${post.isOwnPost && 'cursor-pointer hover:bg-gray-100 dark:hover:bg-indigo-900'}`}
+                                className={`w-4 h-4 rounded-full flex items-center justify-center ${post.isOwnPost && 'cursor-pointer hover:bg-gray-100 dark:hover:bg-purple-900'}`}
                                 onClick={() => post.isOwnPost && updateModal.openModal()}
                                 title={post.isOwnPost ? 'Change Privacy' : ''}
                             >
@@ -125,7 +129,7 @@ const PostItem: React.FC<IProps> = (props) => {
                 <div className="flex items-center justify-around py-2 border-t border-gray-200 dark:border-gray-800">
                     <LikeButton postID={post.id} isLiked={post.isLiked} likeCallback={likeCallback} />
                     <span
-                        className="py-2 rounded-md flex items-center justify-center text-gray-700 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white dark:hover:bg-indigo-1100 cursor-pointer hover:bg-gray-100 text-l w-2/4"
+                        className="py-2 rounded-md flex items-center justify-center text-gray-700 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white dark:hover:bg-purple-1100 cursor-pointer hover:bg-gray-100 text-l w-2/4"
                         onClick={handleToggleComment}
                     >
                         <CommentOutlined />&nbsp;Comment
@@ -134,7 +138,7 @@ const PostItem: React.FC<IProps> = (props) => {
             ) : (
                     <div className="text-center py-2">
                         <span className="text-gray-400 text-sm">
-                            <Link className="font-medium underline dark:text-indigo-400" to={LOGIN}>Login</Link> to like or comment on post.
+                            <Link className="font-medium underline dark:text-gray-400" to={LOGIN}>Login</Link> to like or comment on post.
                         </span>
                     </div>
                 )}

@@ -126,7 +126,7 @@ router.get(
                         from: {
                             username: '$message.from.username',
                             id: '$message.from._id',
-                            profilePicture: '$message.from.profilePicture'
+                            profilePicture: '$message.from.profilePicture',
                         }
                     }
                 },
@@ -149,7 +149,7 @@ router.get(
                         to: {
                             username: '$message.to.username',
                             id: '$message.to._id',
-                            profilePicture: '$message.to.profilePicture'
+                            profilePicture: '$message.to.profilePicture',
                         },
                         isOwnMessage: {
                             $cond: [

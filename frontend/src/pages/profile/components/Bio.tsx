@@ -7,7 +7,7 @@ interface IProps {
 
 const Sidebar: React.FC<IProps> = ({ bio, dateJoined }) => {
     return (
-        <aside className="p-4 bg-white dark:bg-indigo-1000 shadow-lg rounded-md space-y-4">
+        <aside className="p-4 bg-white dark:bg-purple-1000 shadow-lg rounded-md space-y-4">
             <div>
                 <h4 className="mb-2 dark:text-white">Bio</h4>
                 {

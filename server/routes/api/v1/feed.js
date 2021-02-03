@@ -25,7 +25,7 @@ router.get(
                         path: 'post',
                         populate: {
                             path: 'author likesCount commentsCount',
-                            select: 'profilePicture username fullname',
+                            select: 'profilePicture username fullname isVerified',
                         },
                     })
                     .limit(limit)
@@ -56,7 +56,7 @@ router.get(
                     .sort({ createdAt: -1 })
                     .populate({
                         path: 'author likesCount commentsCount',
-                        select: 'profilePicture username fullname',
+                        select: 'profilePicture username fullname isVerified',
                     })
                     .limit(limit)
                     .skip(skip);

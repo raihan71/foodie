@@ -6,7 +6,7 @@ import { search } from '~/services/api';
 import { IError, IProfile, IUser } from '~/types/types';
 import Avatar from './Avatar';
 import Loader from './Loader';
-
+import Verified from './Verified';
 interface IProps {
     floatingResult?: boolean;
     clickItemCallback?: (user: IUser) => void;
@@ -95,7 +95,8 @@ const SearchInput: React.FC<IProps> = (props) => {
         <div className={`input-wrapper relative flex flex-col items-center focus-within:text-gray-600 ${props.inputClassName}`}>
             <SearchOutlined className="flex items-center justify-center text-gray-400 absolute left-3 top-3 z-50" />
             <input
-                className="!border-gray-100 !pl-10 !py-2 dark:bg-indigo-1000 dark:!border-gray-800 dark:text-white"
+                className="border border-transparent focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent !pl-10 !py-2
+                dark:bg-gray-1000 dark:!border-gray-800 dark:text-white"
                 placeholder="Search..."
                 type="text"
                 onFocus={onFocusInput}
@@ -103,7 +104,7 @@ const SearchInput: React.FC<IProps> = (props) => {
                 onKeyDown={onSearchSubmit}
             />
             {(searchInput && isVisibleSuggestion) && (
-                <div className={` bg-white dark:bg-indigo-1000 shadow-lg rounded-md w-full flex justify-center flex-col overflow-hidden ${props.floatingResult ? 'absolute top-12' : 'relative top-0'}`}>
+                <div className={` bg-white dark:bg-gray-1000 shadow-lg rounded-md w-full flex justify-center flex-col overflow-hidden ${props.floatingResult ? 'absolute top-12' : 'relative top-0'}`}>
                     {(!props.showNoResultMessage && !error) && (
                         <h6 className="p-4 text-xs border-b dark:text-white border-gray-100 dark:border-gray-800">Search Suggestion</h6>
                     )}
@@ -114,13 +115,16 @@ const SearchInput: React.FC<IProps> = (props) => {
                     )}
                     {(!isSuggesting && !error && suggestions.length !== 0) && suggestions.map((user) => (
                         <div
-                            className="hover:bg-indigo-100 dark:hover:bg-indigo-900 p-2 cursor-pointer"
+                            className="hover:bg-gray-100 dark:hover:bg-purple-900 p-2 cursor-pointer"
                             key={user.id}
                             onClick={() => onClickItem(user)}
                         >
                             <div className="flex items-center">
                                 <Avatar url={user.profilePicture} className="mr-2" />
-                                <h6 className="mr-10 text-sm max-w-md overflow-ellipsis overflow-hidden dark:text-white">{user.username}</h6>
+                                <div className="flex items-center">
+                                    <h6 className="mr-1 text-sm max-w-md overflow-ellipsis overflow-hidden dark:text-white">{user.username}</h6>
+                                    {user.isVerified && (<Verified />)}
+                                </div>
                             </div>
                         </div>
                     ))}

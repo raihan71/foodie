@@ -11,7 +11,6 @@ class Boundary extends Component {
 
 
     componentDidCatch(error: any, errorInfo: any) {
-        console.log(error);
     }
 
     render() {

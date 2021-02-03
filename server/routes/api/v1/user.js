@@ -38,8 +38,6 @@ router.get(
                 },
             ]);
 
-            console.log(result)
-
             const { followingCount, followersCount, followers } = result[0] || {};
 
             const toObjectUser = {
@@ -97,7 +95,7 @@ router.patch(
 
             res.status(200).send(makeResponseJson(newUser.toUserJSON()));
         } catch (e) {
-            console.log(e);
+            
             res.status(401).send(makeErrorJson());
         }
     }

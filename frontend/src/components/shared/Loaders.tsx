@@ -58,11 +58,11 @@ export const ProfileLoader: React.FC = withTheme(({ theme }) => {
     return (
         <div>
             {/*  ----- COVER PHOTO ------- */}
-            <div className="w-full h-60 laptop:mb-0 laptop:h-80 bg-gray-200 dark:bg-indigo-1000 relative overflow-hidden" />
+            <div className="w-full h-60 laptop:mb-0 laptop:h-80 bg-gray-200 dark:bg-purple-1000 relative overflow-hidden" />
             <div className="contain w-full relative flex transform laptop:-translate-y-28">
                 {/* --- PROFILE PICTURE */}
                 <div className="absolute left-0 right-0 mx-auto transform -translate-y-32 laptop:transform-none laptop:relative laptop:w-1/3 h-60 mr-2 flex justify-center">
-                    <div className="w-40 h-40 laptop:w-60 laptop:h-60 rounded-full border-4 border-white dark:border-indigo-1000 overflow-hidden">
+                    <div className="w-40 h-40 laptop:w-60 laptop:h-60 rounded-full border-4 border-white dark:border-purple-1000 overflow-hidden">
                         <ContentLoader
                             speed={2}
                             width="100%"

@@ -1,4 +1,4 @@
 .nav-active {
-    @apply text-purple-500;
+    @apply text-gray-500;
     @apply font-bold;
 }

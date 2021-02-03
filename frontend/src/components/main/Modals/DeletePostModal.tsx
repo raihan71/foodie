@@ -62,7 +62,7 @@ const DeletePostModal: React.FC<IProps> = (props) => {
         >
             <div className="relative">
                 <div
-                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-indigo-1100"
+                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-purple-1100"
                     onClick={onCloseModal}
                 >
                     <CloseOutlined className="p-2  outline-none text-gray-500 dark:text-white" />
@@ -80,7 +80,7 @@ const DeletePostModal: React.FC<IProps> = (props) => {
                     <p className="text-gray-600 my-4 dark:text-gray-400">Are you sure you want to delete this post?</p>
                     <div className="flex justify-between">
                         <button
-                            className="button--muted !rounded-full dark:bg-indigo-1100 dark:text-white dark:hover:bg-indigo-1100"
+                            className="button--muted !rounded-full dark:bg-purple-1100 dark:text-white dark:hover:bg-purple-1100"
                             onClick={props.closeModal}
                             disabled={isDeleting}
                         >

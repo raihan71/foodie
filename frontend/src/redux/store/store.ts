@@ -15,16 +15,15 @@ const localStorageMiddleware = (store: Store) => {
         const result = next(action);
         try {
             const { settings } = store.getState();
-            localStorage.setItem('foodie_theme', JSON.stringify(settings.theme));
+            localStorage.setItem('codevcast_theme', JSON.stringify(settings.theme));
         } catch (e) {
-            console.log('Error while saving in localStorage', e);
         }
         return result;
     };
 };
 
 const reHydrateStore = () => {
-    const storage = localStorage.getItem('foodie_theme');
+    const storage = localStorage.getItem('codevcast_theme');
     if (storage && storage !== null) {
         return {
             settings: {

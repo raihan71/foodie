@@ -56,7 +56,7 @@ const Bookmarks: React.FC<IProps> = ({ username, isOwnProfile }) => {
                 setIsLoading(false);
             }
         } catch (e) {
-            console.log(e);
+            
             if (didMount) {
                 setIsLoading(false);
                 setError(e);
@@ -96,7 +96,7 @@ const Bookmarks: React.FC<IProps> = ({ username, isOwnProfile }) => {
                                 classNames="fade"
                                 key={item.id}
                             >
-                                <div key={item.id} className="h-24 flex justify-between bg-white dark:bg-indigo-1000 rounded-md shadow-lg overflow-hidden">
+                                <div key={item.id} className="h-24 flex justify-between bg-white dark:bg-purple-1000 rounded-md shadow-lg overflow-hidden">
                                     <div className="flex justify-center items-center">
                                         <BookmarkButton postID={item.post.id} initBookmarkState={item.isBookmarked}>
                                             {({ dispatchBookmark, isBookmarked }) => (
@@ -114,12 +114,12 @@ const Bookmarks: React.FC<IProps> = ({ username, isOwnProfile }) => {
                                         </BookmarkButton>
                                     </div>
                                     <Link
-                                        className="flex flex-grow justify-between hover:bg-indigo-100 border border-transparent dark:hover:bg-indigo-1000 dark:hover:border-gray-800"
+                                        className="flex flex-grow justify-between hover:bg-gray-100 border border-transparent dark:hover:bg-purple-1000 dark:hover:border-gray-800"
                                         key={item.id}
                                         to={`/post/${item.post.id}`}
                                     >
                                         <div className="flex-grow p-2 pb-4 max-w-sm">
-                                            <h4 className="break-all overflow-hidden overflow-ellipsis h-8 laptop:h-12 dark:text-indigo-400">
+                                            <h4 className="break-all overflow-hidden overflow-ellipsis h-8 laptop:h-12 dark:text-gray-400">
                                                 {item.post.description}
                                             </h4>
                                             <span className="text-xs text-gray-400 self-end">Bookmarked {dayjs(item.createdAt).fromNow()}</span>

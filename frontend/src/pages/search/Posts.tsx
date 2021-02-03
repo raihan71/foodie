@@ -20,7 +20,7 @@ const boldString = (str: string, substr: string) => {
         return str;
     }
     const len = sub.length;
-    return str.substr(0, x) + '<b><span style="color: #818cf8">' + str.substr(x, len) + '</span></b>' + str.substr(x + len);
+    return str.substr(0, x) + '<b><span style="color: #e1e1e1">' + str.substr(x, len) + '</span></b>' + str.substr(x + len);
 }
 
 const Posts: React.FC<IProps> = ({ posts, searchQuery }) => {
@@ -40,7 +40,7 @@ const Posts: React.FC<IProps> = ({ posts, searchQuery }) => {
         <div className="space-y-4">
             {posts.map((post) => post.author && (
                 <div
-                    className="h-28 laptop:h-24 flex justify-start bg-white dark:bg-indigo-1100 rounded-md shadow-lg overflow-hidden cursor-pointer border border-transparent hover:border-indigo-700"
+                    className="h-28 laptop:h-24 flex justify-start bg-white dark:bg-purple-1100 dark:hover:border-purple-700 rounded-md shadow-lg overflow-hidden cursor-pointer border border-transparent hover:border-gray-700"
                     key={post.id}
                     onClick={(e) => onClickPost(post.id)}
                 >
@@ -62,7 +62,7 @@ const Posts: React.FC<IProps> = ({ posts, searchQuery }) => {
                                     Posted by
                                     &nbsp;
                                     <span
-                                        className="underline text-indigo-700 dark:text-indigo-400 cursor-pointer hover:text-indigo-400"
+                                        className="underline text-gray-700 dark:text-gray-400 cursor-pointer hover:text-gray-400"
                                         onClick={(e) => onClickAuthor(e, post.author.username)}
                                     >
                                         {post.author.username}

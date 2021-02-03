@@ -80,7 +80,6 @@ router.get(
 
             const result = bookmarks.map((item) => {
                 const isBookmarked = req.user.isBookmarked(item._post_id);
-
                 return {
                     ...item.toObject(),
                     isBookmarked,

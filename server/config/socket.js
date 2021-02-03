@@ -17,11 +17,9 @@ module.exports = function (app, server) {
                 .then((user) => {
                     if (user) {
                         socket.join(user._id.toString());
-                        console.log('Client connected.');
                     }
                 })
                 .catch((e) => {
-                    console.log('Invalid user ID, cannot join Socket.');
                 });
         });
 

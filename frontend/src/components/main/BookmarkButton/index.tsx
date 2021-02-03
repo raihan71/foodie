@@ -33,7 +33,7 @@ const BookmarkButton: React.FC<IProps> = (props) => {
                 });
             }
         } catch (e) {
-            console.log(e);
+            
         }
     }
 

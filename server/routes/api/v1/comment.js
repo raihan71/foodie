@@ -87,7 +87,7 @@ router.get(
                 .limit(limit)
                 .populate({
                     path: 'author',
-                    select: 'fullname username profilePicture'
+                    select: 'fullname username profilePicture isVerified'
                 })
                 .skip(skip)
                 .sort({ createdAt: -1 })
@@ -123,7 +123,7 @@ router.get(
             console.log(result)
             res.status(200).send(makeResponseJson(result));
         } catch (e) {
-            console.log(e);
+            
             res.status(500).send(makeErrorJson({ status_code: 500, message: 'Something went wrong.' }));
         }
     }
@@ -163,7 +163,7 @@ router.delete(
                 res.sendStatus(401);
             }
         } catch (e) {
-            console.log(e);
+            
             res.status(500).send(makeErrorJson())
         }
     }

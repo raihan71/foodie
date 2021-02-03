@@ -7,7 +7,8 @@ import Footer from '~/components/shared/Footer';
 import { REGISTER } from '~/constants/routes';
 import useDocumentTitle from '~/hooks/useDocumentTitle';
 import bg from '~/images/cover/bg-login.jpg';
-import image from '~/images/logo-codevcast.png';
+import logo from '~/images/logo-codevcast.png';
+import logo_dark from '~/images/logo-codevcast-dark.png';
 import { loginStart } from '~/redux/action/authActions';
 import { setAuthErrorMessage } from '~/redux/action/errorActions';
 import { IRootReducer } from '~/types/types';
@@ -61,10 +62,10 @@ const Login: React.FC = () => {
             >
                 {/* --- LOGO --- */}
                 <Link className="absolute left-8 top-8" to="/">
-                    <img src={logo} alt="Foodie Logo" className="w-24" />
+                    <img src={logo_dark} alt="Codevcast Logo" className="w-24" />
                 </Link>
                 {/* -- INFO --- */}
-                <h3 className="animate-fade text-white w-10/12 mb-14">
+                <h3 className="animate-fade text-white w-11/12 mb-14">
                     You get stuck coding, need some help? You're in the right place.
                 </h3>
                 {/* --- CREDITS LINK --- */}
@@ -80,8 +81,8 @@ const Login: React.FC = () => {
             <div className="animate-fade laptop:w-5/12 w-full flex items-center justify-start relative">
                 <Link to="/">
                     <img
-                        src={logo_dark}
-                        alt="Foodie Logo"
+                        src={logo}
+                        alt="Codevcast Logo"
                         className="w-24 absolute left-0 right-0 mx-auto top-8 laptop:hidden"
                     />
                 </Link>

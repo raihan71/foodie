@@ -7,11 +7,11 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import withAuth from "~/components/hoc/withAuth";
 import CreatePostModal from "~/components/main/Modals/CreatePostModal";
 import PostItem from "~/components/main/PostItem";
-import SuggestedPeople from "~/components/main/SuggestedPeople";
+import SuggestedDeveloper from "~/components/main/SuggestedDeveloper";
 import Avatar from "~/components/shared/Avatar";
 import Loader from "~/components/shared/Loader";
 import { PostLoader } from "~/components/shared/Loaders";
-import { SUGGESTED_PEOPLE } from "~/constants/routes";
+import { SUGGESTED_DEVELOPER } from "~/constants/routes";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useModal from "~/hooks/useModal";
 import { clearNewsFeed, createPostStart, deleteFeedPost, getNewsFeedStart, hasNewFeed, updateFeedPost } from "~/redux/action/feedActions";
@@ -41,7 +41,7 @@ const Home: React.FC<IProps> = (props) => {
 
     useDocumentTitle('Codevcast Network | Social network platform for devs');
     useEffect(() => {
-        console.log('TRIGGER', from)
+        
         if (state.newsFeed.items.length === 0 || from === '/') {
             dispatch(clearNewsFeed());
             dispatch(getNewsFeedStart({ offset: 0 }));
@@ -89,7 +89,7 @@ const Home: React.FC<IProps> = (props) => {
     return (
         <div className="laptop:px-6% pt-20 flex items-start">
             {/*  --- SIDE MENU --- */}
-            <div className="hidden laptop:block laptop:w-1/4 laptop:rounded-md bg-white laptop:sticky laptop:top-20 mr-4 laptop:shadow-lg divide-y-2 dark:bg-indigo-1000">
+            <div className="hidden laptop:block laptop:w-1/4 laptop:rounded-md bg-white laptop:sticky laptop:top-20 mr-4 laptop:shadow-lg divide-y-2 dark:bg-purple-1000">
                 {props.isAuth && (
                     <SideMenu username={state.auth.username} profilePicture={state.auth.profilePicture} />
                 )}
@@ -101,7 +101,7 @@ const Home: React.FC<IProps> = (props) => {
                         <Avatar url={state.auth.profilePicture} className="mr-2" />
                         <div className="flex-grow">
                             <input
-                                className="dark:bg-indigo-1000 dark:!border-gray-800 dark:text-white"
+                                className="dark:bg-purple-1000 dark:!border-gray-800 dark:text-white"
                                 type="text"
                                 placeholder="Create a post."
                                 onClick={() => (!state.isLoadingCreatePost && !state.isLoadingFeed) && openModal()}
@@ -135,10 +135,10 @@ const Home: React.FC<IProps> = (props) => {
                             <>
                                 <CoffeeOutlined className="text-8xl text-gray-300 mb-4 dark:text-gray-800" />
                                 <h5 className="text-gray-500">News feed is empty</h5>
-                                <p className="text-gray-400">Start following people or create your first post.</p>
+                                <p className="text-gray-400">Start following developer or create your first post.</p>
                                 <br />
-                                <Link className="underline dark:text-indigo-400" to={SUGGESTED_PEOPLE}>
-                                    See Suggested People
+                                <Link className="underline dark:text-gray-400" to={SUGGESTED_DEVELOPER}>
+                                    See Suggested Developer
                                 </Link>
                             </>
                         ) : (
@@ -200,10 +200,10 @@ const Home: React.FC<IProps> = (props) => {
                     </>
                 )}
             </div>
-            {/* --- SUGGESTED PEOPLE --- */}
+            {/* --- SUGGESTED DEVELOPER --- */}
             <div className="hidden laptop:block laptop:w-1/4 laptop:sticky laptop:top-20 ml-4">
                 {props.isAuth && (
-                    <SuggestedPeople />
+                    <SuggestedDeveloper />
                 )}
             </div>
         </div >

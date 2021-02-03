@@ -18,8 +18,8 @@ module.exports = {
         '1xs': '11px'
       },
       colors: {
-        'indigo-1000': '#100f17',
-        'indigo-1100': '#08070f'
+        'purple-1000': '#100f17',
+        'purple-1100': '#08070f'
       },
       height: {
         '60px': '60px',
@@ -74,16 +74,14 @@ module.exports = {
     backgroundRepeat: ['important', 'responsive'],
     backgroundPosition: ['important', 'responsive'],
     margin: ['first', 'responsive'],
-    maxHeight: ['focus'],
     display: ['responsive'],
     padding: ['important', 'responsive'],
     borderRadius: ['important', 'responsive'],
-    textColor: ['important', 'hover'],
-    borderColor: ['important', 'focus', 'hover'],
-    boxShadow: ['responsive', 'hover', 'focus'],
-    outline: ['focus'],
+    textColor: ['important', 'hover', 'dark'],
+    borderColor: ['important', 'focus', 'hover', 'dark'],
     outlineOffset: ['hover'],
-    border: ['hover', 'responsive', 'focus'],
+    boxShadow: ['responsive', 'dark'],
+    border: ['hover', 'responsive'],
     extend: {
       cursor: ['disabled'],
       opacity: ['disabled', 'readonly'],

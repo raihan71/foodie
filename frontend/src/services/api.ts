@@ -465,11 +465,11 @@ export const uploadPhoto = async (data: FormData, field: string): Promise<string
     }
 }
 
-export const getSuggestedPeople = async (params: IFetchParams): Promise<IProfile[]> => {
+export const getSuggestedDeveloper = async (params: IFetchParams): Promise<IProfile[]> => {
     try {
         const req = await axios({
             method: 'GET',
-            url: `/people/suggested`,
+            url: `/developer/suggested`,
             params
         });
 

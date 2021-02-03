@@ -53,7 +53,8 @@ router.post(
                     follower: Types.ObjectId(follower._id),
                     post: Types.ObjectId(post._id),
                     post_owner: req.user._id,
-                    createdAt: post.createdAt
+                    createdAt: post.createdAt,
+                    isVerified: req.user.isVerified
                 }));
             }
             // append own post on newsfeed
@@ -79,7 +80,7 @@ router.post(
 
             return res.status(200).send(makeResponseJson({ ...post.toObject(), isOwnPost: true }));
         } catch (e) {
-            console.log(e);
+            
             return res.status(401).send(makeErrorJson({ status_code: 401, message: 'You\'re not authorized to make a post.' }))
         }
     });
@@ -125,7 +126,7 @@ router.get(
                 .populate('likesCount')
                 .populate({
                     path: 'author',
-                    select: 'username fullname profilePicture',
+                    select: 'username fullname profilePicture isVerified',
                 })
                 .skip(skip)
                 .limit(limit);
@@ -151,7 +152,7 @@ router.get(
 
             res.status(200).send(makeResponseJson(uPosts));
         } catch (e) {
-            console.log(e);
+            
             res.status(400).send(makeErrorJson());
         }
     }
@@ -184,7 +185,7 @@ router.post(
 
             const fetchedPost = await Post.findByIdAndUpdate(post_id, query, { new: true });
             await fetchedPost.populate('likesCount commentsCount').execPopulate();
-            await fetchedPost.populate('author', 'fullname username profilePicture').execPopulate();
+            await fetchedPost.populate('author', 'fullname username profilePicture isVerified').execPopulate();
             const result = {
                 ...fetchedPost.toObject(),
                 isLiked: !isPostLiked,
@@ -215,7 +216,7 @@ router.post(
 
             res.status(200).send(makeResponseJson({ post: result, state: isPostLiked }));
         } catch (e) {
-            console.log(e);
+            
             res.status(500).send(makeErrorJson());
         }
     }
@@ -314,7 +315,7 @@ router.get(
                 return res.status(401).send(makeErrorJson({ status_code: 401, message: 'You\'re not authorized to view this' }))
             }
 
-            await post.populate('author likesCount commentsCount', 'fullname username profilePicture').execPopulate();
+            await post.populate('author likesCount commentsCount', 'fullname username profilePicture isVerified').execPopulate();
 
             const isBookmarked = req.user.isBookmarked(post_id);
             const isPostLiked = post.isPostLiked(req.user._id);
@@ -346,7 +347,7 @@ router.get(
                 .findById(Types.ObjectId(post_id))
                 .populate({
                     path: 'likes',
-                    select: 'profilePicture username fullname',
+                    select: 'profilePicture username fullname isVerified',
                     options: {
                         skip,
                         limit,

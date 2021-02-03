@@ -28,7 +28,7 @@ router.get(
                         privacy: 'public'
                     })
                     .populate('likesCount commentsCount')
-                    .populate('author', 'profilePicture fullname username')
+                    .populate('author', 'profilePicture fullname username isVerified')
                     .limit(limit)
                     .skip(skip);
 
@@ -39,8 +39,7 @@ router.get(
                 const postsMerged = posts.map((post) => {
                     const isPostLiked = post.isPostLiked(req.user._id);
                     const isBookmarked = req.user.isBookmarked(post.id);
-
-                    return { ...post.toObject(), isLiked: isPostLiked, isBookmarked };
+                    return { ...post.toObject(), isLiked: isPostLiked, isBookmarked};
                 });
 
                 result = postsMerged;

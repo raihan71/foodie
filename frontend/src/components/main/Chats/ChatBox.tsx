@@ -108,9 +108,9 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
     }
 
     return (
-        <div className={`bg-white dark:bg-indigo-1100 p-3 relative w-full h-full laptop:w-20rem laptop:shadow-lg laptop:rounded-t-xl laptop:bottom-0 laptop:right-24 laptop:border laptop:border-gray-400 dark:border-gray-800`}>
+        <div className={`bg-white dark:bg-purple-1100 p-3 relative w-full h-full laptop:w-20rem laptop:shadow-lg laptop:rounded-t-xl laptop:bottom-0 laptop:right-24 laptop:border laptop:border-gray-400 dark:border-gray-800`}>
             <div className="flex justify-between pb-3 border-b border-gray-200 dark:border-gray-800">
-                <Link className="dark:text-indigo-400" to={`/user/${target.username}`}>
+                <Link className="dark:text-gray-400" to={`/user/${target.username}`}>
                     <div className="flex items-center">
                         <Avatar url={target.profilePicture} className="mr-2" />
                         <h5>{target.username}</h5>
@@ -118,14 +118,14 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                 </Link>
                 <div className="hidden laptop:flex laptop:items-center">
                     <div
-                        className="post-option-toggle p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:text-white dark:hover:bg-indigo-1000"
+                        className="post-option-toggle p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:text-white dark:hover:bg-purple-1000"
                         title="Minimize Chat"
                         onClick={onMinimize}
                     >
                         <LineOutlined className="flex items-center justify-center" />
                     </div>
                     <div
-                        className="post-option-toggle p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:text-white dark:hover:bg-indigo-1000"
+                        className="post-option-toggle p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:text-white dark:hover:bg-purple-1000"
                         title="Close Chat"
                         onClick={onCloseChat}
                     >
@@ -134,7 +134,7 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                 </div>
             </div>
             {/* --- MESSAGES BODY ---- */}
-            <div className="min-h-24rem max-h-85% laptop:max-h-80 bg-gray-100 dark:bg-indigo-1000 overflow-y-scroll pb-14 scrollbar">
+            <div className="min-h-24rem max-h-85% laptop:max-h-80 bg-gray-100 dark:bg-purple-1000 overflow-y-scroll pb-14 scrollbar">
                 {(isLoading && target.chats.length === 0 && !error) && (
                     <div className="flex justify-center min-h-18rem py-2">
                         <Loader />
@@ -159,7 +159,7 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                     <>
                         {!isLoading ? (
                             <div
-                                className={`flex justify-center items-center py-2 mb-4 bg-purple-100 cursor-pointer`}
+                                className={`flex justify-center items-center py-2 mb-4 bg-gray-100 cursor-pointer`}
                                 onClick={fetchMessages}
                             >
                                 <span className="text-gray-700 text-xs">Older messages</span>
@@ -193,7 +193,7 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                                             />
                                             {/*  -- MESSAGE-- */}
                                             <span
-                                                className={`py-2 px-3 break-all text-sm rounded-xl ${msg.isOwnMessage ? 'bg-indigo-700 text-white order-1' : 'bg-gray-300 order-2'}`}>
+                                                className={`py-2 px-3 break-all text-sm rounded-xl ${msg.isOwnMessage ? 'bg-gray-700 text-white order-1' : 'bg-gray-300 order-2'}`}>
                                                 {msg.text}
                                             </span>
                                             <span ref={dummyEl}></span>
@@ -217,9 +217,9 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                     </TransitionGroup>
                 )}
             </div>
-            <div className="absolute bottom-0 left-0 bg-white dark:bg-indigo-1100 w-full flex px-2 py-3 border-t border-gray-200 dark:border-gray-800">
+            <div className="absolute bottom-0 left-0 bg-white dark:bg-purple-1100 w-full flex px-2 py-3 border-t border-gray-200 dark:border-gray-800">
                 <input
-                    className="flex-grow !border-gray-400 !rounded-r-none !py-0 dark:bg-indigo-1000 dark:text-white dark:!border-gray-800"
+                    className="flex-grow focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent !rounded-r-none !py-0 dark:bg-purple-1000 dark:text-white dark:border-purple-800 dark:focus:ring-purple-600"
                     type="text"
                     onChange={handleTextChange}
                     onKeyDown={handleTextKeyDown}
@@ -228,7 +228,7 @@ const ChatBox: React.FC<IProps> = ({ user, target }) => {
                     value={text}
                 />
                 <button
-                    className="!rounded-l-none flex items-center justify-center"
+                    className="bg-gray-600 hover:bg-gray-700 dark:bg-purple-600 dark:hover:bg-purple-700 !rounded-l-none flex items-center justify-center"
                     disabled={isSending || isLoading}
                     onClick={dispatchSendMessage}
                 >

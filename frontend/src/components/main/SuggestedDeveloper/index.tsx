@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "~/components/shared/Avatar";
 import { UserLoader } from "~/components/shared/Loaders";
-import { SUGGESTED_PEOPLE } from "~/constants/routes";
-import { getSuggestedPeople } from "~/services/api";
+import Verified from "~/components/shared/Verified";
+import { SUGGESTED_DEVELOPER } from "~/constants/routes";
+import { getSuggestedDeveloper } from "~/services/api";
 import { IError, IProfile } from "~/types/types";
 import FollowButton from "../FollowButton";
 
-const SuggestedPeople: React.FC = () => {
-    const [people, setPeople] = useState<IProfile[]>([]);
+const SuggestedDeveloper: React.FC = () => {
+    const [developer, setDeveloper] = useState<IProfile[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<IError | null>(null);
 
@@ -16,9 +17,9 @@ const SuggestedPeople: React.FC = () => {
         (async function () {
             try {
                 setIsLoading(true);
-                const users = await getSuggestedPeople({ offset: 0, limit: 6 });
+                const users = await getSuggestedDeveloper({ offset: 0, limit: 6 });
 
-                setPeople(users);
+                setDeveloper(users);
                 setIsLoading(false);
             } catch (e) {
                 setIsLoading(false);
@@ -28,10 +29,10 @@ const SuggestedPeople: React.FC = () => {
     }, []);
 
     return (
-        <div className="w-full py-4 bg-white dark:bg-indigo-1000 rounded-md shadow-lg overflow-hidden">
+        <div className="w-full py-4 bg-white dark:bg-purple-1000 rounded-md shadow-lg overflow-hidden">
             <div className="px-4 flex justify-between mb-4">
-                <h4 className="dark:text-white">Suggested People</h4>
-                <Link to={SUGGESTED_PEOPLE} className="text-xs underline dark:text-indigo-500">See all</Link>
+                <h4 className="dark:text-white">Suggested Developer</h4>
+                <Link to={SUGGESTED_DEVELOPER} className="text-xs underline dark:text-gray-500">See all</Link>
             </div>
             {isLoading && (
                 <div className="min-h-10rem px-4">
@@ -48,16 +49,20 @@ const SuggestedPeople: React.FC = () => {
                     </span>
                 </div>
             )}
-            {!error && people.map((user) => (
+            {!error && developer.map((user) => (
                 <div className="mb-2" key={user.id || user._id}>
                     <div className="relative flex items-center justify-between px-4 py-2">
                         <Link to={`/user/${user.username}`}>
                             <div className="flex items-center">
                                 <Avatar url={user.profilePicture} className="mr-2" />
-                                <h6 className="mr-10 text-sm overflow-ellipsis overflow-hidden dark:text-white">{user.username}</h6>
+                                <div className="flex items-center">
+                                    <h6 className="mr-1 text-sm overflow-ellipsis overflow-hidden dark:text-white">{user.username}
+                                    </h6>
+                                    {user?.isVerified && (<Verified />)}
+                                </div>
                             </div>
                         </Link>
-                        <div className="absolute px-4 bg-white dark:bg-indigo-1000 right-0 top-0 bottom-0 my-auto flex items-center">
+                        <div className="absolute px-4 bg-white dark:bg-purple-1000 right-0 top-0 bottom-0 my-auto flex items-center">
                             <FollowButton
                                 userID={user.id || user._id}
                                 isFollowing={user.isFollowing}
@@ -66,9 +71,10 @@ const SuggestedPeople: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            ))}
+            )
+            )}
         </div>
     );
 };
 
-export default SuggestedPeople;
+export default SuggestedDeveloper;

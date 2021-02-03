@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { LOGIN, REGISTER } from '~/constants/routes';
 import useModal from "~/hooks/useModal";
-import image from '~/images/logo-codevcast.png';
+import logo from '~/images/logo-codevcast.png';
+import logo_dark from '~/images/logo-codevcast-dark.png';
 import { logoutStart } from "~/redux/action/authActions";
 import { IRootReducer } from "~/types/types";
 import withAuth from "../hoc/withAuth";
@@ -44,7 +45,7 @@ const NavBar: React.FC<IProps> = ({ isAuth, theme }) => {
         : (
             <>
                 {isLaptop ? (
-                    <nav className="contain flex justify-between items-center z-9999 border-b border-transparent dark:border-gray-900 align-center w-100 bg-white text-gray-700 h-60px py-2 fixed w-full shadow-md laptop:shadow-sm dark:bg-indigo-1000">
+                    <nav className="contain flex justify-between items-center z-9999 border-b border-transparent dark:border-gray-900 align-center w-100 bg-white text-gray-700 h-60px py-2 fixed w-full shadow-md laptop:shadow-sm dark:bg-purple-1000">
                         <div className="flex items-center space-x-8">
                             {/* ---- LOGO -------- */}
                             <Link
@@ -53,12 +54,17 @@ const NavBar: React.FC<IProps> = ({ isAuth, theme }) => {
                                     state: { from: pathname }
                                 }}
                             >
-                                <img
-                                    src={image}
+                                   {theme === 'dark' ? (
+                                        <img
+                                            src={logo_dark}
+                                            alt=""
+                                            className="w-24"
+                                        />
+                                    ) : <img
+                                    src={logo}
                                     alt=""
                                     className="w-24"
-                                    style={{ filter: `brightness(${theme === 'dark' ? 3.5 : 1})` }}
-                                />
+                                /> }
                             </Link>
                             {/* -------- SEARCH BAR ------- */}
                             <SearchInput />
@@ -68,10 +74,10 @@ const NavBar: React.FC<IProps> = ({ isAuth, theme }) => {
                                 <>
                                     {/* ----- FOLLOW/MESSAGE/NOTIF ICONS ------ */}
                                     <ul className="flex items-center space-x-8 mr-8">
-                                        <li className="flex items-center justify-center w-10 h-10 cursor-pointer rounded-full hover:bg-gray-200 dark:hover:bg-indigo-1100">
+                                        <li className="flex items-center justify-center w-10 h-10 cursor-pointer rounded-full hover:bg-gray-200 dark:hover:bg-purple-1100">
                                             <Messages isAuth={isAuth} />
                                         </li>
-                                        <li className="flex items-center justify-center w-10 h-10 cursor-pointer rounded-full hover:bg-gray-200 dark:hover:bg-indigo-1100">
+                                        <li className="flex items-center justify-center w-10 h-10 cursor-pointer rounded-full hover:bg-gray-200 dark:hover:bg-purple-1100">
                                             <Notification isAuth={isAuth} />
                                         </li>
                                     </ul>
@@ -80,12 +86,12 @@ const NavBar: React.FC<IProps> = ({ isAuth, theme }) => {
                                         <Link to={`/user/${auth.username}`} className="cursor-pointer">
                                             <div className="flex items-center">
                                                 <Avatar url={auth.profilePicture} className="mr-2" />
-                                                <h6 className="text-sm mr-10 dark:text-indigo-400">@{auth.username}</h6>
+                                                <h6 className="text-sm mr-10 dark:text-gray-400">@{auth.username}</h6>
                                             </div>
                                         </Link>
                                         {/* ----- LOGOUT BUTTON ------ */}
                                         <button
-                                            className="button--muted !rounded-full dark:bg-indigo-1100 dark:text-white dark:hover:bg-indigo-900 dark:hover:text-white dark:active:bg-indigo-1100"
+                                            className="button--muted !rounded-full dark:bg-purple-1100 dark:text-white dark:hover:bg-purple-900 dark:hover:text-white dark:active:bg-purple-1100"
                                             onClick={logoutModal.openModal}
                                             disabled={isLoadingAuth}
                                         >
@@ -96,12 +102,12 @@ const NavBar: React.FC<IProps> = ({ isAuth, theme }) => {
                             ) : (
                                     <ul className="flex items-center">
                                         <li className="group inline-block mx-3">
-                                            <NavLink to="/login" className="group-hover:text-indigo-600 text-gray-500 dark:hover:text-white" activeClassName="nav-active">
+                                            <NavLink to="/login" className="group-hover:text-gray-600 text-gray-500 dark:hover:text-white" activeClassName="nav-active">
                                                 Login
                                             </NavLink>
                                         </li>
                                         <li className="group inline-block mx-3">
-                                            <NavLink to="/register" className="button py-1 group-hover:text-indigo-600" activeClassName="nav-active">
+                                            <NavLink to="/register" className="button py-1 group-hover:text-gray-600" activeClassName="nav-active">
                                                 Register
                                     </NavLink>
                                         </li>

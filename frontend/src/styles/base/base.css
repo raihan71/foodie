@@ -105,8 +105,8 @@
     @apply
       h-4
       w-4
-      text-purple-600
-      border-purple-500
+      text-gray-600
+      border-gray-500
       rounded
       hover:cursor-not-allowed
       focus:ring-0
@@ -148,11 +148,11 @@
         }
    
         &::-webkit-scrollbar-thumb {
-            @apply bg-purple-700;
+            @apply bg-gray-700;
             border-radius: 10px;
 
             &:hover {
-              @apply bg-purple-500;
+              @apply bg-gray-500;
             }
         }
     }

@@ -36,6 +36,7 @@ export interface IUser {
     username: string;
     fullname?: string;
     profilePicture?: string;
+    isVerified?: boolean;
 }
 
 export interface IPost {
@@ -91,6 +92,7 @@ export interface IProfile {
         birthday: string;
         gender: string;
     },
+    isVerified?: boolean;
     isEmailValidated: boolean;
     profilePicture?: string;
     coverPhoto?: string;

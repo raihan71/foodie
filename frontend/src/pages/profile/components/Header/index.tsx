@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import FollowButton from '~/components/main/FollowButton';
 import CropProfileModal from '~/components/main/Modals/CropProfileModal';
 import Loader from '~/components/shared/Loader';
+import Verified from '~/components/shared/Verified';
 import useFileHandler from '~/hooks/useFileHandler';
 import useModal from '~/hooks/useModal';
 import avatar_placeholder from '~/images/avatar_placeholder.png';
@@ -17,7 +18,6 @@ import { uploadPhoto } from '~/services/api';
 import { IImage, IProfile, IUser } from "~/types/types";
 import Tabs from '../Tabs';
 import CoverPhotoOverlay from './CoverPhotoOverlay';
-
 interface IProps {
     profile: IProfile,
     auth: IUser;
@@ -164,7 +164,7 @@ const Header: React.FC<IProps> = ({ profile, auth }) => {
                         <>
                             <div
 
-                                className="w-full h-full laptop:w-60 laptop:h-60 !bg-cover !bg-no-repeat rounded-full border-4 border-white dark:border-indigo-1000 overflow-hidden"
+                                className="w-full h-full laptop:w-60 laptop:h-60 !bg-cover !bg-no-repeat rounded-full border-4 border-white dark:border-purple-1000 overflow-hidden"
                                 style={{
                                     background: `#f7f7f7 url(${profile.profilePicture || avatar_placeholder})`
                                 }}
@@ -202,15 +202,24 @@ const Header: React.FC<IProps> = ({ profile, auth }) => {
                     <div className="px-4 laptop:px-0 w-full flex items-center flex-col laptop:flex-row justify-between mb-2 laptop:ml-2 laptop:mr-14">
                         {/* ---- NAME AND USERNAME */}
                         <div className="text-center laptop:text-left mb-4 laptop:mb-0">
-                            <h2 className="text-3xl dark:text-white">{profile.fullname || `@${profile.username}`}</h2>
-                            <span className="text-indigo-700 dark:text-indigo-400">{profile.fullname && `@${profile.username}`}</span>
+                            <h2 className="text-3xl dark:text-white">
+                                {profile.fullname || (
+                                    <span className="mr-1">
+                                    {`@${profile.username} ${profile.isVerified && (<Verified />)}`}
+                                    </span>
+                                )}
+                            </h2>
+                            <span className="text-gray-700 dark:text-gray-400">
+                                <span className="mr-1">{profile.fullname && `@${profile.username}`}</span>
+                                {profile.isVerified && (<Verified />)}
+                            </span>
                         </div>
                         {/* ---- FOLLOW/UNFOLLOW/MESSAGE BUTTON */}
                         {!profile.isOwnProfile ? (
                             <div className="flex justify-center laptop:justify-start space-x-4 items-start">
                                 <FollowButton isFollowing={profile.isFollowing} userID={profile.id} />
                                 <button
-                                    className="button--muted !border-gray-400 !rounded-full flex items-center dark:bg-indigo-1100 dark:text-white dark:hover:text-white dark:hover:bg-indigo-900 dark:!border-gray-800"
+                                    className="button--muted !border-gray-400 !rounded-full flex items-center dark:bg-purple-1100 dark:text-white dark:hover:text-white dark:hover:bg-purple-900 dark:!border-gray-800"
                                     onClick={onClickMessage}
                                 >
                                     <MessageOutlined className="flex items-center justify-center mr-2" />
@@ -219,7 +228,7 @@ const Header: React.FC<IProps> = ({ profile, auth }) => {
                             </div>
                         ) : (
                                 <button
-                                    className="button--muted !rounded-full !border !border-gray-400 !focus:bg-gray-200 !py-2 flex items-center justify-center dark:bg-indigo-1100 dark:text-white dark:hover:text-white dark:hover:bg-indigo-900 dark:!border-gray-800"
+                                    className="button--muted !rounded-full !border !border-gray-400 !focus:bg-gray-200 !py-2 flex items-center justify-center dark:bg-purple-1100 dark:text-white dark:hover:text-white dark:hover:bg-purple-900 dark:!border-gray-800"
                                     onClick={() => history.push(`/user/${profile.username}/edit`)}
                                 >
                                     <EditOutlined className="text-xl mr-4" />

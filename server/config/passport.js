@@ -126,13 +126,11 @@ module.exports = function (passport) {
                         if (err) {
                             done(null, false, err);  // handle errors!
                         } else {
-                            console.log('SUCCESSFULL CREATED', newUser);
                             done(null, newUser);
                         }
                     });
                 }
             } catch (err) {
-                console.log(err);
                 return done(err);
             }
         }
@@ -172,16 +170,13 @@ module.exports = function (passport) {
 
                     newUser.save(function (err) {
                         if (err) {
-                            console.log(err)
                             done(null, false, err);  // handle errors!
                         } else {
-                            console.log('SUCCESSFULL CREATED', newUser);
                             done(null, newUser);
                         }
                     });
                 }
             } catch (err) {
-                console.log(err);
                 return done(err);
             }
         }

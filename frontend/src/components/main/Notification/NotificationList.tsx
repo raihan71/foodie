@@ -40,7 +40,7 @@ const NotificationList: React.FC<IProps> = (props) => {
                                         key={notif.id}
                                     >
                                         <div
-                                            className={`border border-transparent dark:hover:border-indigo-700 ${notif.unread ? 'bg-indigo-100 dark:bg-indigo-1100 hover:bg-indigo-200' : 'bg-white dark:bg-indigo-1000 dark:hover:bg-indigo-1100'} p-4 hover:bg-gray-100 dark:hover:bg-indigo-1100 hover:opacity-95 divide-y divide-y-2 divide-gray-100`}
+                                            className={`border border-transparent dark:hover:border-purple-700 ${notif.unread ? 'bg-gray-50 dark:bg-purple-1100 hover:bg-gray-100' : 'bg-white dark:bg-purple-1000 dark:hover:bg-purple-1100'} p-4 hover:bg-gray-100 dark:hover:bg-gray-1100 hover:opacity-95 divide-y divide-y-2 divide-gray-100`}
                                             key={notif.id}
                                             onClick={() => handleNotificationClick(notif.link, notif.id)}
                                         >
@@ -52,7 +52,7 @@ const NotificationList: React.FC<IProps> = (props) => {
                                                         className="mr-2 flex-shrink-0"
                                                     />
                                                     <div>
-                                                        <span className="text-indigo-700 dark:text-indigo-400 font-medium break-all">
+                                                        <span className="text-gray-700 dark:text-gray-400 font-medium break-all">
                                                             {notif.initiator.username}
                                                         </span>
                                                     &nbsp;
@@ -71,11 +71,11 @@ const NotificationList: React.FC<IProps> = (props) => {
                                                     </div>
                                                 </div>
                                                 {notif.type === 'like' ? (
-                                                    <LikeOutlined className="text-2xl text-indigo-700 dark:text-indigo-400 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
+                                                    <LikeOutlined className="text-2xl text-gray-700 dark:text-gray-400 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
                                                 ) : notif.type === 'comment' ? (
-                                                    <CommentOutlined className="text-2xl text-indigo-700 dark:text-indigo-400 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
+                                                    <CommentOutlined className="text-2xl text-gray-700 dark:text-gray-400 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
                                                 ) : (
-                                                            <UserAddOutlined className="text-2xl text-indigo-700 dark:text-indigo-400 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
+                                                            <UserAddOutlined className="text-2xl text-gray-700 dark:text-gray-400 flex items-center justify-center absolute right-4 top-0 bottom-0 my-auto" />
                                                         )}
                                             </div>
                                         </div>

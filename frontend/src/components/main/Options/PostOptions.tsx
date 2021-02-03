@@ -46,24 +46,24 @@ const PostOptions: React.FC<IProps> = (props) => {
     return (
         <div className="post-option-wrapper relative z-10">
             <div
-                className="post-option-toggle p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:text-white dark:hover:bg-indigo-1100"
+                className="post-option-toggle p-2 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:text-white dark:hover:bg-purple-1100"
                 onClick={toggleOpen}
             >
                 <EllipsisOutlined style={{ fontSize: '20px' }} />
             </div>
             {isOpenOption && (
-                <div className="w-60 flex flex-col bg-white dark:bg-indigo-1000 rounded-md shadow-lg overflow-hidden absolute top-8 right-3 border border-gray-200 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800">
+                <div className="w-60 flex flex-col bg-white dark:bg-purple-1000 rounded-md shadow-lg overflow-hidden absolute top-8 right-3 border border-gray-200 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800">
                     {props.post.isOwnPost ? (
                         <>
                             <h4
-                                className="p-4 flex items-center hover:bg-indigo-700 hover:text-white cursor-pointer dark:text-white"
+                                className="p-4 flex items-center hover:bg-gray-700 hover:text-white cursor-pointer dark:text-white"
                                 onClick={props.openUpdateModal}
                             >
                                 <EditOutlined className="mr-4" />
                                 Edit Post
                         </h4>
                             <h4
-                                className="p-4 flex items-center hover:bg-indigo-700 hover:text-white cursor-pointer dark:text-white"
+                                className="p-4 flex items-center hover:bg-gray-700 hover:text-white cursor-pointer dark:text-white"
                                 onClick={props.openDeleteModal}
                             >
                                 <DeleteOutlined className="mr-4" />

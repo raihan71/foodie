@@ -42,7 +42,7 @@ const ComposeMessageModal: React.FC<IProps> = (props) => {
         >
             <div className="relative transition-all pb-8 min-h-18rem">
                 <div
-                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-indigo-1100"
+                    className="absolute right-2 top-2 p-1 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-purple-1100"
                     onClick={props.closeModal}
                 >
                     <CloseOutlined className="p-2  outline-none text-gray-500 dark:text-white" />
