@@ -21,9 +21,9 @@ const uploadImageToStorage = (file) => {
         if (!file) {
             reject('No image file');
         }
-        let newFileName = `${file.originalname}`;
-
-        let fileUpload = bucket.file(newFileName);
+        const originalname = `${file.originalname}`;
+        const newFileName = originalname.replace(/\s+/g, '-').toLowerCase();
+        const fileUpload = bucket.file(newFileName);
 
         const blobStream = fileUpload.createWriteStream({
             metadata: {
@@ -62,7 +62,7 @@ const deleteImageFromStorage = (...images) => {
 
             resolve('Successfully deleted.');
         } catch (e) {
-            
+            console.log(e);
             reject('Cannot delete images.');
         }
     });
