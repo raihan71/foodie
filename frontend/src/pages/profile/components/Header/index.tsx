@@ -205,7 +205,8 @@ const Header: React.FC<IProps> = ({ profile, auth }) => {
                             <h2 className="text-3xl dark:text-white">
                                 {profile.fullname || (
                                     <span className="mr-1">
-                                    {`@${profile.username} ${profile.isVerified && (<Verified />)}`}
+                                    {`@${profile.username}`}
+                                    {profile.isVerified && (<Verified />)}
                                     </span>
                                 )}
                             </h2>
