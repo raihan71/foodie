@@ -161,7 +161,7 @@ const Login: React.FC = () => {
                     </form>
                     <div className="text-center mt-8">
                         <Link
-                            className="underline font-medium"
+                            className="hover:underline font-medium"
                             onClick={(e) => isLoading && e.preventDefault()}
                             to={REGISTER}
                         >
