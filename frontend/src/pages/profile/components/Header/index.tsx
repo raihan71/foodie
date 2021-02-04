@@ -203,10 +203,11 @@ const Header: React.FC<IProps> = ({ profile, auth }) => {
                         {/* ---- NAME AND USERNAME */}
                         <div className="text-center laptop:text-left mb-4 laptop:mb-0">
                             <h2 className="text-3xl dark:text-white">
-                                {profile.fullname || (<span className="mr-1">
-                                    {`@${profile.username}`}
-                                {profile.isVerified && <Verified />}
-                                </span>)}
+                                {profile.fullname || (
+                                    <span className="mr-1">
+                                    {`@${profile.username}`}{profile.isVerified && <Verified />}
+                                    </span>
+                                )}
                             </h2>
                             <span className="text-gray-700 dark:text-gray-400">
                                 <span className="mr-1">{profile.fullname && `@${profile.username}`}</span>
