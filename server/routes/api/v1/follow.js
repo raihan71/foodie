@@ -354,15 +354,15 @@ router.get(
 
             // I want my own account to be on top :) 
             // Just remove this xD
-            if (limit < 10) { // If less than 10, I want to only append mine in Home page Suggested developer list
-                const raihan = await User.findOne({ username: 'raihannismara' });
-                if (raihan) {
-                    developer.unshift({
-                        ...sessionizeUser(raihan),
-                        isFollowing: following.includes(raihan._id.toString())
-                    });
-                }
-            }
+            // if (limit < 10) { // If less than 10, I want to only append mine in Home page Suggested developer list
+            //     const raihan = await User.findOne({ username: 'raihannismara' });
+            //     if (raihan) {
+            //         developer.unshift({
+            //             ...sessionizeUser(raihan),
+            //             isFollowing: following.includes(raihan._id.toString())
+            //         });
+            //     }
+            // }
             // ---
 
             res.status(200).send(makeResponseJson(developer));
