@@ -1,4 +1,4 @@
-import { ArrowLeftOutlined, ArrowRightOutlined, CloseOutlined, LogoutOutlined, MenuOutlined, SearchOutlined, StarOutlined, TeamOutlined, UsergroupAddOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, ArrowRightOutlined, CloseOutlined, LogoutOutlined, MenuOutlined, SearchOutlined, StarOutlined, TeamOutlined, UsergroupAddOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { LOGIN, REGISTER, SUGGESTED_DEVELOPER } from "~/constants/routes";
@@ -166,6 +166,16 @@ const NavBarMobile: React.FC<IProps> = ({ theme, isAuth, auth, openModal }) => {
                                 >
                                     <UsergroupAddOutlined className="text-gray-700 dark:text-gray-400" style={{ fontSize: '30px', marginRight: '25px' }} />
                                     <h6 className="text-sm">Suggested Developer</h6>
+                                </Link>
+                            </li>
+                            <li className="p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-purple-1100">
+                                <Link
+                                    className="flex items-center text-black dark:text-white"
+                                    onClick={onClickMenuItem}
+                                    to={{ pathname: "http://codevcast.com/" }} target="_blank"
+                                >
+                                    <PlayCircleOutlined className="text-gray-700 dark:text-gray-400" style={{ fontSize: '30px', marginRight: '25px' }} />
+                                    <h6 className="text-sm">Podcast</h6>
                                 </Link>
                             </li>
                             <li className="p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-purple-1100">
