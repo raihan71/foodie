@@ -5,7 +5,7 @@ const Message = require('../../../schemas/MessageSchema');
 const Chat = require('../../../schemas/ChatSchema');
 const { Types } = require('mongoose');
 const { MESSAGES_LIMIT } = require('../../../constants/constants');
-
+const nodemailer = require('nodemailer');
 const router = require('express').Router({ mergeParams: true });
 
 router.post(
@@ -63,6 +63,29 @@ router.post(
                     isOwnMessage: user === message.from._id.toString() ? true : false
                 });
             });
+
+            if (user) {
+                const { email, username } = user;
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: process.env.SENDER_EMAIL,
+                        pass: process.env.SENDER_EMAIL_PASS
+                    }
+                });
+
+                const mailOptions = {
+                    from: 'network@codevcast.com',
+                    to: email,
+                    subject: 'You have new message',
+                    html: `<h1>Codevcast Network</h1><p>Hi <b>@${username}</b>, you have new message from <b>@${req.user.username}</b>:<i>"${text}"</i>, login <a href="http://network.codevcast.com/" target="_new">here</a> hurry up!</p>`
+                };
+
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) throw err;
+                    console.log('Email sent: ' + info.response);
+                });
+            }
 
             res.status(200).send(makeResponseJson(message));
         } catch (e) {
