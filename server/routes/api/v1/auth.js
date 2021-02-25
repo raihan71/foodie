@@ -3,31 +3,36 @@ const express = require('express');
 const passport = require('passport');
 const { schemas, validateBody } = require('../../../validations/validations');
 const { sessionizeUser, makeErrorJson, makeResponseJson } = require('../../../helpers/utils');
-const { INCORRECT_CREDENTIALS, EMAIL_TAKEN } = require('../../../constants/error-types');
+const { INCORRECT_CREDENTIALS, EMAIL_TAKEN, NOT_HUMAN } = require('../../../constants/error-types');
 const router = express.Router({ mergeParams: true });
-
+const fetch = require('node-fetch');
 //@route POST /api/v1/register
 router.post(
     '/v1/register',
     validateBody(schemas.registerSchema),
-    (req, res, next) => {
+    async(req, res, next) => {
+        const human = await validateHuman(req.body.token);
+        if (!human) {
+            return res
+                .status(404)
+                .send(makeErrorJson({ type: NOT_HUMAN, message: 'Re-Captcha is required!' }));
+        }
         passport.authenticate('local-register', (err, user, info) => {
             if (err) {
                 return next(err);
             }
 
             if (user) { // if user has been successfully created
-                req.logIn(user, function (err) { // <-- Log user in
+                req.logIn(user, async function (err) { // <-- Log user in
                     if (err) {
                         return next(err);
                     }
-
                     const userData = sessionizeUser(user);
                     return res.status(200).send(makeResponseJson(userData));
                 });
             } else {
                 return res
-                    .status(401)
+                    .status(404)
                     .send(makeErrorJson({ type: EMAIL_TAKEN, message: info.error }));
             }
         })(req, res, next);
@@ -113,6 +118,18 @@ router.get('/v1/check-session', (req, res) => {
         res.status(404).send(makeErrorJson({ message: 'Session invalid/expired.' }));
     }
 });
+
+async function validateHuman(token) {
+    const secret = process.env.GOOGLE_RECAPTCHA_SECRET_KEY;
+    const response = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`,
+      {
+        method: "POST",
+      }
+    );
+    const data = await response.json();
+    return data.success;
+  }
 
 
 module.exports = router;

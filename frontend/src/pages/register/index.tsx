@@ -2,6 +2,7 @@ import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 import SocialLogin from '~/components/shared/SocialLogin';
 import Footer from '~/components/shared/Footer';
 import { LOGIN } from '~/constants/routes';
@@ -12,6 +13,7 @@ import logo_dark from '~/images/logo-codevcast-dark.png';
 import { registerStart } from '~/redux/action/authActions';
 import { setAuthErrorMessage } from '~/redux/action/errorActions';
 import { IRootReducer } from '~/types/types';
+let token:any;
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -51,13 +53,19 @@ const Register: React.FC = () => {
         setUsername(val.toLowerCase());
     };
 
+    const onChangeCaptcha = (value:any) => {
+        token = value;
+    }
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        if (email && password && username) {
-            dispatch(registerStart({ email, password, username }));
+        if (email && password && username && token) {
+            dispatch(registerStart({ email, password, username, token }));
         }
     };
+
+    const sitekey = process.env.GOOGLE_RECAPTCHA_SITE_KEY || '6LdnrWYaAAAAAC84BLQ9POd4lBS-MoFAKThBndVF';
+
     return (
         <div className="min-h-screen flex bg-white">
             <div
@@ -166,6 +174,13 @@ const Register: React.FC = () => {
                                             />
                                         )}
                                 </div>
+                            </div>
+                            <div>
+                                <ReCAPTCHA
+                                    hl="en"
+                                    sitekey={sitekey}
+                                    onChange={onChangeCaptcha}
+                                />
                             </div>
                         </div>
                         <div>

@@ -32,12 +32,13 @@ export const logoutSuccess = () => (<const>{
     type: LOGOUT_SUCCESS
 });
 
-export const registerStart = ({ email, password, username }: IRegister) => (<const>{
+export const registerStart = ({ email, password, username, token }: IRegister) => (<const>{
     type: REGISTER_START,
     payload: {
         email,
         password,
-        username
+        username,
+        token
     }
 });
 

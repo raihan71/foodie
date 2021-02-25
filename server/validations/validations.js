@@ -34,7 +34,11 @@ const username = Joi
         'string.min': `Username should have a minimum length of {#limit}`,
         'any.required': 'Username field is required'
     });
-
+    const token = Joi
+    .required()
+    .messages({
+        'any.required': 'token field is required'
+    });
 module.exports = {
     schemas: {
         loginSchema: Joi.object().keys({
@@ -44,7 +48,8 @@ module.exports = {
         registerSchema: Joi.object().keys({
             email,
             password,
-            username
+            username,
+            token
         }).options({ abortEarly: false }),
         createPostSchema: Joi.object().keys({
             description: Joi.string(),

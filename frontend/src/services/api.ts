@@ -59,7 +59,7 @@ export const checkAuthSession = async () => {
     }
 }
 
-export const register = async ({ email, password, username }: IRegister) => {
+export const register = async ({ email, password, username, token }: IRegister) => {
     try {
         const req = await axios({
             method: 'POST',
@@ -67,7 +67,8 @@ export const register = async ({ email, password, username }: IRegister) => {
             data: {
                 email,
                 password,
-                username
+                username,
+                token
             }
         });
 
